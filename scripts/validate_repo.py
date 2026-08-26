@@ -27,6 +27,7 @@ REQUIRED_FILES = [
     "docs/09_outputs.md",
     "docs/10_roadmap.md",
     "docs/11_paper_native_baselines.md",
+    "docs/12_regulatory_validation_track.md",
 ]
 
 BLOCKED_PHRASES = [
@@ -80,6 +81,7 @@ def main():
         "docs/09_outputs.md",
         "docs/10_roadmap.md",
         "docs/11_paper_native_baselines.md",
+        "docs/12_regulatory_validation_track.md",
     ]:
         if doc not in readme:
             errors.append(f"README does not link {doc}")

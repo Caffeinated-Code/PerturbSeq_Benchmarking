@@ -37,6 +37,8 @@
 
 - Add Alzheimer and microglia gene-set recovery
 - Add state-shift analysis
+- Add chromatin accessibility validation
+- Add peak-to-gene and motif evidence tables
 - Compare method findings to native paper conclusions
 - Write dataset-specific interpretation notes
 
@@ -47,4 +49,3 @@
 - Add cost notes
 - Add large-dataset sharding strategy
 - Add runtime and memory benchmark table
-

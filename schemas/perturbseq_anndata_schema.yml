@@ -39,10 +39,37 @@ recommended:
     - publication
     - benchmark_notes
 
+regulatory_validation:
+  peak_table:
+    required:
+      - peak_id
+      - chromosome
+      - start
+      - end
+      - linked_gene
+      - cell_type
+      - accessibility_score
+  peak_to_gene_table:
+    required:
+      - peak_id
+      - gene_symbol
+      - link_score
+      - evidence_type
+  motif_table:
+    required:
+      - peak_id
+      - motif
+      - motif_score
+  variant_overlap_table:
+    recommended:
+      - peak_id
+      - variant_id
+      - locus
+      - disease
+
 control_type_values:
   - non_targeting
   - targeting
   - positive_control
   - safe_targeting
   - unknown
-

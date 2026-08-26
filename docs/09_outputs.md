@@ -13,6 +13,8 @@ The benchmark should produce compact tables for review and machine-readable file
 | `method_summary.csv` | discoveries, calibration metrics, runtime, memory |
 | `cell_state_summary.csv` | state abundance by perturbation |
 | `ad_microglia_recovery.csv` | recovery of Alzheimer and microglia marker programs |
+| `regulatory_validation.csv` | chromatin support for perturbation hits |
+| `regulatory_validation_summary.csv` | regulatory validation PASS, WARN, and LOW_SUPPORT counts |
 | `method_agreement.csv` | agreement across benchmarked methods |
 | `benchmark_summary.csv` | final method-level summary |
 
@@ -27,6 +29,8 @@ Recommended figures:
 - perturbation effect heatmap
 - cell-state proportion heatmap
 - AD/microglia gene-set recovery plot
+- regulatory validation score plot
+- peak-to-gene support heatmap
 - method agreement UpSet plot
 - runtime and memory bar plot
 
@@ -38,9 +42,10 @@ Each dataset report should include:
 2. QC summary
 3. Native analysis reproduction
 4. Method comparison
-5. Alzheimer or disease-relevant interpretation
-6. Limitations
-7. Recommended method choice
+5. Regulatory validation
+6. Alzheimer or disease-relevant interpretation
+7. Limitations
+8. Recommended method choice
 
 ## Final Cross-Dataset Report
 
@@ -52,4 +57,3 @@ The cross-dataset report should answer:
 - Which method scaled best?
 - Which method was most useful for microglia-state interpretation?
 - Which datasets were incompatible with each method, and why?
-

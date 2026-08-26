@@ -8,6 +8,19 @@ benchmark:
   fdr_threshold: 0.05
   downsampling_fractions: [1.0, 0.5, 0.25]
 
+regulatory_validation:
+  min_peak_detection_fraction: 0.05
+  min_peak_to_gene_score: 0.20
+  promoter_window_bp: 2000
+  enhancer_window_bp: 100000
+  motif_score_threshold: 0.50
+  validation_score_pass: 70
+  validation_score_warn: 40
+  required_evidence_types:
+    - accessible_peak
+    - peak_to_gene_link
+    - microglia_or_ad_annotation
+
 biology:
   alzheimer_genes:
     - TREM2
@@ -42,4 +55,10 @@ biology:
     - HLA-DRA
     - HLA-DRB1
     - CD74
-
+  microglia_tf_motifs:
+    - SPI1
+    - IRF8
+    - MAFB
+    - RUNX1
+    - CEBPB
+    - MEF2C

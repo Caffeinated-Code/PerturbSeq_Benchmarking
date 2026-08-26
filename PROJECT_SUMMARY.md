@@ -12,10 +12,10 @@ The benchmark compares recent analysis strategies for:
 - cell-state shifts
 - pathway-level effects
 - Alzheimer and microglia gene-set recovery
+- chromatin accessibility validation
 - runtime and memory performance
 
 The repository is designed for two audiences:
 
 - beginners who need clear primers on Perturb-seq and Alzheimer microglia
 - computational biologists who want a reproducible benchmark with explicit assumptions
-

@@ -16,11 +16,13 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset-qc", required=True)
     parser.add_argument("--benchmark-summary", required=True)
+    parser.add_argument("--regulatory-summary", default=None)
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
 
     qc = read_first(args.dataset_qc)
     summary = read_first(args.benchmark_summary)
+    regulatory = read_first(args.regulatory_summary) if args.regulatory_summary else {}
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     lines = [
@@ -41,6 +43,13 @@ def main():
         f"- Alzheimer gene effects: {summary.get('n_ad_gene_effects', 'NA')}",
         f"- microglia-state gene effects: {summary.get('n_microglia_state_gene_effects', 'NA')}",
         "",
+        "## Regulatory Validation",
+        "",
+        f"- tested effects: {regulatory.get('n_tested_effects', 'NA')}",
+        f"- PASS: {regulatory.get('n_pass', 'NA')}",
+        f"- WARN: {regulatory.get('n_warn', 'NA')}",
+        f"- LOW_SUPPORT: {regulatory.get('n_low_support', 'NA')}",
+        "",
         "This demo validates the benchmark scaffold. Full runs should use public datasets listed in the dataset manifest.",
     ]
     out.write_text("\n".join(lines) + "\n")
@@ -48,4 +57,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

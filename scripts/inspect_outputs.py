@@ -14,6 +14,9 @@ EXPECTED = {
     "results/qc/cell_state_summary.csv": ["perturbation", "cell_state", "fraction"],
     "results/method/simple_pseudobulk_effects.csv": ["method", "perturbation", "gene", "log2fc", "effect_direction"],
     "results/benchmark/benchmark_summary.csv": ["method", "n_effects", "n_ad_gene_effects", "n_microglia_state_gene_effects"],
+    "results/regulatory_validation/regulatory_validation.csv": ["method", "perturbation", "gene", "regulatory_validation_score", "regulatory_validation_status"],
+    "results/regulatory_validation/regulatory_validation_summary.csv": ["n_tested_effects", "n_pass", "n_warn", "n_low_support"],
+    "results/regulatory_validation/validated_ad_microglia_hits.csv": ["method", "perturbation", "gene", "regulatory_validation_status"],
     "results/report/demo_report.md": [],
 }
 
@@ -45,4 +48,3 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

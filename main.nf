@@ -21,6 +21,21 @@ process MAKE_DEMO_DATASET {
   """
 }
 
+process MAKE_DEMO_REGULATORY_DATA {
+  tag "demo_regulatory"
+  publishDir "${params.outdir}/inputs", mode: "copy"
+
+  output:
+  path "demo_regulatory/demo_regulatory_peaks.csv", emit: peaks
+  path "demo_regulatory/demo_peak_to_gene.csv", emit: peak_to_gene
+  path "demo_regulatory/demo_motifs.csv", emit: motifs
+
+  script:
+  """
+  python ${projectDir}/scripts/make_demo_regulatory_data.py --outdir demo_regulatory
+  """
+}
+
 process BASELINE_QC {
   tag "demo_synthetic"
   publishDir "${params.outdir}/qc", mode: "copy"
@@ -82,6 +97,32 @@ process SCORE_BENCHMARK {
   """
 }
 
+process REGULATORY_VALIDATION {
+  tag "demo_regulatory_validation"
+  publishDir "${params.outdir}/regulatory_validation", mode: "copy"
+
+  input:
+  path effects
+  path peaks
+  path peak_to_gene
+  path motifs
+
+  output:
+  path "regulatory/regulatory_validation.csv", emit: regulatory_validation
+  path "regulatory/regulatory_validation_summary.csv", emit: regulatory_summary
+  path "regulatory/validated_ad_microglia_hits.csv", emit: validated_hits
+
+  script:
+  """
+  python ${projectDir}/bin/run_regulatory_validation.py \
+    --effects ${effects} \
+    --peaks ${peaks} \
+    --peak-to-gene ${peak_to_gene} \
+    --motifs ${motifs} \
+    --outdir regulatory
+  """
+}
+
 process MAKE_REPORT {
   tag "demo_report"
   publishDir "${params.outdir}/report", mode: "copy"
@@ -89,6 +130,7 @@ process MAKE_REPORT {
   input:
   path dataset_qc
   path benchmark_summary
+  path regulatory_summary
 
   output:
   path "report/demo_report.md", emit: report
@@ -98,14 +140,17 @@ process MAKE_REPORT {
   python ${projectDir}/bin/make_report.py \
     --dataset-qc ${dataset_qc} \
     --benchmark-summary ${benchmark_summary} \
+    --regulatory-summary ${regulatory_summary} \
     --out report/demo_report.md
   """
 }
 
 workflow {
   demo = MAKE_DEMO_DATASET()
+  regulatory_demo = MAKE_DEMO_REGULATORY_DATA()
   qc = BASELINE_QC(demo.cells, demo.expression)
   method = RUN_METHOD(demo.cells, demo.expression)
   score = SCORE_BENCHMARK(method.effects)
-  MAKE_REPORT(qc.dataset_qc, score.benchmark_summary)
+  regulatory = REGULATORY_VALIDATION(method.effects, regulatory_demo.peaks, regulatory_demo.peak_to_gene, regulatory_demo.motifs)
+  MAKE_REPORT(qc.dataset_qc, score.benchmark_summary, regulatory.regulatory_summary)
 }
