@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: PerturbSeq_Benchmarking
+message: If you use this repository, cite the relevant dataset and method papers in addition to this project.
+type: software
+authors:
+  - family-names: Dhanasekaran
+    given-names: Swathi
+repository-code: https://github.com/Caffeinated-Code/PerturbSeq_Benchmarking
+license: MIT
+keywords:
+  - Perturb-seq
+  - single-cell CRISPR
+  - microglia
+  - Alzheimer disease
+  - benchmarking
+

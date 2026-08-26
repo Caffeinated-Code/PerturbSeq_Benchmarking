@@ -1,0 +1,29 @@
+name: Demo Workflow
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  demo-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Generate demo data
+        run: python scripts/make_demo_dataset.py --outdir demo_data
+      - name: Run baseline QC
+        run: python bin/run_baseline_qc.py --cells demo_data/demo_cells.csv --expression demo_data/demo_expression.csv --outdir results/qc
+      - name: Run baseline method
+        run: python bin/run_method.py --cells demo_data/demo_cells.csv --expression demo_data/demo_expression.csv --method simple_pseudobulk --outdir results/method
+      - name: Score benchmark
+        run: python bin/score_benchmark.py --effects results/method/simple_pseudobulk_effects.csv --outdir results/benchmark
+      - name: Make report
+        run: python bin/make_report.py --dataset-qc results/qc/dataset_qc.csv --benchmark-summary results/benchmark/benchmark_summary.csv --out results/report/demo_report.md
+      - name: Inspect outputs
+        run: python scripts/inspect_outputs.py
+      - name: Validate repository
+        run: python scripts/validate_repo.py

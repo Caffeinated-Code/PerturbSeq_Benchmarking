@@ -1,0 +1,78 @@
+datasets:
+  - id: demo_synthetic
+    name: Synthetic Perturb-seq demo
+    organism: human
+    cell_type: microglia_like_demo
+    perturbation_type: CRISPRi
+    readout: scRNA-seq
+    modality: RNA
+    access: generated
+    path: demo_data/demo_synthetic.h5ad
+    priority: demo
+    native_analysis: simple_pseudobulk_baseline
+
+  - id: drager_microglia_cropseq
+    name: Drager et al. iPSC-derived microglia CROP-seq
+    organism: human
+    cell_type: iPSC-derived microglia
+    perturbation_type: CRISPRi
+    readout: scRNA-seq plus sgRNA
+    modality: RNA
+    access: public
+    source: https://www.nature.com/articles/s41593-022-01131-4
+    priority: tier1
+    native_analysis: seurat_sctransform_cluster_shift_de
+    notes: Microglia disease-state anchor.
+
+  - id: yang_ad_microglia_hyprseq
+    name: Yang/Shen AD microglia CRISPRi-HyPr-seq
+    organism: human
+    cell_type: microglia
+    perturbation_type: CRISPRi regulatory elements
+    readout: targeted HyPr-seq
+    modality: targeted_RNA
+    access: public
+    accession: GSE207628
+    source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE207628
+    priority: tier1
+    native_analysis: targeted_panel_enhancer_target_analysis
+    notes: Direct AD risk-locus dataset. Not whole-transcriptome Perturb-seq.
+
+  - id: replogle_k562_gwps
+    name: Replogle et al. K562 genome-scale Perturb-seq
+    organism: human
+    cell_type: K562
+    perturbation_type: CRISPRi
+    readout: scRNA-seq plus direct guide capture
+    modality: RNA
+    access: public
+    source: https://plus.figshare.com/articles/dataset/_Mapping_information-rich_genotype-phenotype_landscapes_with_genome-scale_Perturb-seq_Replogle_et_al_2022_processed_Perturb-seq_datasets/20029387
+    priority: tier1
+    native_analysis: pseudobulk_effect_matrix
+    notes: Scale benchmark.
+
+  - id: frangieh_perturb_citeseq
+    name: Frangieh et al. Perturb-CITE-seq
+    organism: human
+    cell_type: melanoma and immune co-culture model
+    perturbation_type: CRISPR perturbation
+    readout: RNA plus surface protein
+    modality: RNA_protein
+    access: public
+    source: https://singlecell.broadinstitute.org/single_cell/study/SCP1064/multi-modal-pooled-perturb-cite-seq-screens-in-patient-models-define-novel-mechanisms-of-cancer-immune-evasion
+    priority: tier1
+    native_analysis: context_specific_multimodal_analysis
+    notes: Multimodal benchmark.
+
+  - id: papalexi_ifng_perturb_citeseq
+    name: Papalexi et al. IFN-gamma Perturb-CITE-seq
+    organism: human
+    cell_type: immune signaling model
+    perturbation_type: CRISPR perturbation
+    readout: RNA plus surface protein
+    modality: RNA_protein
+    access: public
+    priority: tier1
+    native_analysis: mixscape_local_perturbation_signature
+    notes: Perturbation classification and escapee benchmark.
+

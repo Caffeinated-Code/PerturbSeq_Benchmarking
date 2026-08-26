@@ -1,0 +1,48 @@
+schema_name: perturbseq_benchmark_anndata
+version: 0.1.0
+
+required:
+  obs:
+    - cell_id
+    - dataset_id
+    - perturbation
+    - guide_id
+    - target_gene
+    - control_type
+    - batch
+  var:
+    - gene_id
+    - gene_symbol
+  layers:
+    - counts
+
+recommended:
+  obs:
+    - donor
+    - condition
+    - stimulation
+    - cell_type
+    - cell_state
+    - guide_count
+    - n_genes
+    - total_counts
+    - pct_mito
+  var:
+    - chromosome
+    - feature_type
+  obsm:
+    - X_pca
+    - X_umap
+    - protein
+  uns:
+    - dataset_source
+    - publication
+    - benchmark_notes
+
+control_type_values:
+  - non_targeting
+  - targeting
+  - positive_control
+  - safe_targeting
+  - unknown
+

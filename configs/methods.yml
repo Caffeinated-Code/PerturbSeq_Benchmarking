@@ -1,0 +1,54 @@
+methods:
+  - id: native_paper
+    name: Paper-native analysis
+    year: dataset_specific
+    category: baseline
+    enabled: true
+    output_level: dataset_specific
+
+  - id: simple_pseudobulk
+    name: Pseudobulk differential expression baseline
+    year: baseline
+    category: baseline
+    enabled: true
+    output_level: perturbation_gene
+
+  - id: sceptre_low_moi
+    name: SCEPTRE low-MOI
+    year: 2024
+    category: association_testing
+    enabled: false
+    output_level: perturbation_gene
+    source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11100084/
+
+  - id: ps
+    name: Perturbation-response score
+    year: 2025
+    category: response_scoring
+    enabled: false
+    output_level: cell_and_perturbation
+    source: https://www.nature.com/articles/s41556-025-01626-9
+
+  - id: gsfa
+    name: Guided sparse factor analysis
+    year: 2023
+    category: latent_factor
+    enabled: false
+    output_level: perturbation_module
+    source: https://www.nature.com/articles/s41592-023-02017-4
+
+  - id: mixscape
+    name: Mixscape
+    year: 2021
+    category: perturbation_classification
+    enabled: false
+    output_level: cell_and_guide
+
+  - id: pertpy_distance
+    name: pertpy perturbation-distance workflow
+    year: 2025
+    category: framework
+    enabled: false
+    output_level: perturbation_embedding
+    source: https://www.nature.com/articles/s41592-025-02909-7
+

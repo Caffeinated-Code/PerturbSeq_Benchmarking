@@ -1,0 +1,21 @@
+name: perturbseq-benchmarking
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - scanpy
+  - anndata
+  - pandas
+  - numpy
+  - scipy
+  - pyyaml
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - statsmodels
+  - nextflow
+  - pip
+  - pip:
+      - pertpy
+
