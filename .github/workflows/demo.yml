@@ -19,6 +19,8 @@ jobs:
         run: python scripts/make_demo_regulatory_data.py --outdir demo_data
       - name: Run baseline QC
         run: python bin/run_baseline_qc.py --cells demo_data/demo_cells.csv --expression demo_data/demo_expression.csv --outdir results/qc
+      - name: Select compatible methods
+        run: python bin/select_methods.py --cells demo_data/demo_cells.csv --expression demo_data/demo_expression.csv --modality RNA --outdir results/method_selection
       - name: Run baseline method
         run: python bin/run_method.py --cells demo_data/demo_cells.csv --expression demo_data/demo_expression.csv --method simple_pseudobulk --outdir results/method
       - name: Score benchmark
@@ -26,7 +28,7 @@ jobs:
       - name: Run regulatory validation
         run: python bin/run_regulatory_validation.py --effects results/method/simple_pseudobulk_effects.csv --peaks demo_data/demo_regulatory_peaks.csv --peak-to-gene demo_data/demo_peak_to_gene.csv --motifs demo_data/demo_motifs.csv --outdir results/regulatory_validation
       - name: Make report
-        run: python bin/make_report.py --dataset-qc results/qc/dataset_qc.csv --benchmark-summary results/benchmark/benchmark_summary.csv --regulatory-summary results/regulatory_validation/regulatory_validation_summary.csv --out results/report/demo_report.md
+        run: python bin/make_report.py --dataset-qc results/qc/dataset_qc.csv --benchmark-summary results/benchmark/benchmark_summary.csv --method-decisions results/method_selection/method_decisions.csv --regulatory-summary results/regulatory_validation/regulatory_validation_summary.csv --out results/report/demo_report.md
       - name: Inspect outputs
         run: python scripts/inspect_outputs.py
       - name: Validate repository

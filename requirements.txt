@@ -8,4 +8,4 @@ matplotlib>=3.7
 seaborn>=0.13
 scikit-learn>=1.3
 statsmodels>=0.14
-
+# The RShiny app uses R packages: shiny, bslib, DT, ggplot2.

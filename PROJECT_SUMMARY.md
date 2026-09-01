@@ -13,6 +13,8 @@ The benchmark compares recent analysis strategies for:
 - pathway-level effects
 - Alzheimer and microglia gene-set recovery
 - chromatin accessibility validation
+- dataset-aware method routing
+- searchable RShiny result review
 - runtime and memory performance
 
 The repository is designed for two audiences:

@@ -58,6 +58,28 @@ process BASELINE_QC {
   """
 }
 
+process SELECT_METHODS {
+  tag "method_selection"
+  publishDir "${params.outdir}/method_selection", mode: "copy"
+
+  input:
+  path cells
+  path expression
+
+  output:
+  path "selection/dataset_profile.csv", emit: dataset_profile
+  path "selection/method_decisions.csv", emit: method_decisions
+
+  script:
+  """
+  python ${projectDir}/bin/select_methods.py \
+    --cells ${cells} \
+    --expression ${expression} \
+    --modality RNA \
+    --outdir selection
+  """
+}
+
 process RUN_METHOD {
   tag "${params.method}"
   publishDir "${params.outdir}/methods/${params.method}", mode: "copy"
@@ -130,6 +152,7 @@ process MAKE_REPORT {
   input:
   path dataset_qc
   path benchmark_summary
+  path method_decisions
   path regulatory_summary
 
   output:
@@ -140,6 +163,7 @@ process MAKE_REPORT {
   python ${projectDir}/bin/make_report.py \
     --dataset-qc ${dataset_qc} \
     --benchmark-summary ${benchmark_summary} \
+    --method-decisions ${method_decisions} \
     --regulatory-summary ${regulatory_summary} \
     --out report/demo_report.md
   """
@@ -149,8 +173,9 @@ workflow {
   demo = MAKE_DEMO_DATASET()
   regulatory_demo = MAKE_DEMO_REGULATORY_DATA()
   qc = BASELINE_QC(demo.cells, demo.expression)
+  selection = SELECT_METHODS(demo.cells, demo.expression)
   method = RUN_METHOD(demo.cells, demo.expression)
   score = SCORE_BENCHMARK(method.effects)
   regulatory = REGULATORY_VALIDATION(method.effects, regulatory_demo.peaks, regulatory_demo.peak_to_gene, regulatory_demo.motifs)
-  MAKE_REPORT(qc.dataset_qc, score.benchmark_summary, regulatory.regulatory_summary)
+  MAKE_REPORT(qc.dataset_qc, score.benchmark_summary, selection.method_decisions, regulatory.regulatory_summary)
 }

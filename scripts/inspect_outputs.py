@@ -12,6 +12,8 @@ EXPECTED = {
     "results/qc/dataset_qc.csv": ["dataset_id", "n_cells", "n_genes", "design_status"],
     "results/qc/guide_qc.csv": ["guide_id", "cell_count", "status"],
     "results/qc/cell_state_summary.csv": ["perturbation", "cell_state", "fraction"],
+    "results/method_selection/dataset_profile.csv": ["n_cells", "mean_guides_per_cell", "guide_collision_rate", "moi_class"],
+    "results/method_selection/method_decisions.csv": ["method_id", "decision", "reason"],
     "results/method/simple_pseudobulk_effects.csv": ["method", "perturbation", "gene", "log2fc", "effect_direction"],
     "results/benchmark/benchmark_summary.csv": ["method", "n_effects", "n_ad_gene_effects", "n_microglia_state_gene_effects"],
     "results/regulatory_validation/regulatory_validation.csv": ["method", "perturbation", "gene", "regulatory_validation_score", "regulatory_validation_status"],

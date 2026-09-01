@@ -12,16 +12,23 @@ def read_first(path):
     return rows[0] if rows else {}
 
 
+def read_rows(path):
+    with open(path, newline="") as handle:
+        return list(csv.DictReader(handle))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset-qc", required=True)
     parser.add_argument("--benchmark-summary", required=True)
+    parser.add_argument("--method-decisions", default=None)
     parser.add_argument("--regulatory-summary", default=None)
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
 
     qc = read_first(args.dataset_qc)
     summary = read_first(args.benchmark_summary)
+    method_decisions = read_rows(args.method_decisions) if args.method_decisions else []
     regulatory = read_first(args.regulatory_summary) if args.regulatory_summary else {}
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -43,6 +50,17 @@ def main():
         f"- Alzheimer gene effects: {summary.get('n_ad_gene_effects', 'NA')}",
         f"- microglia-state gene effects: {summary.get('n_microglia_state_gene_effects', 'NA')}",
         "",
+        "## Method Selection",
+        "",
+    ]
+    if method_decisions:
+        lines.extend(["| Method | Decision | Reason |", "|---|---|---|"])
+        for row in method_decisions:
+            lines.append(f"| {row.get('method_id', '')} | {row.get('decision', '')} | {row.get('reason', '')} |")
+        lines.append("")
+    else:
+        lines.extend(["No method-decision table was supplied.", ""])
+    lines.extend([
         "## Regulatory Validation",
         "",
         f"- tested effects: {regulatory.get('n_tested_effects', 'NA')}",
@@ -51,7 +69,7 @@ def main():
         f"- LOW_SUPPORT: {regulatory.get('n_low_support', 'NA')}",
         "",
         "This demo validates the benchmark scaffold. Full runs should use public datasets listed in the dataset manifest.",
-    ]
+    ])
     out.write_text("\n".join(lines) + "\n")
 
 

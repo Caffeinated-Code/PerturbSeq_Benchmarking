@@ -101,6 +101,12 @@ The demo run is intentionally small. Full public datasets can be large and shoul
 
 The demo pipeline writes baseline QC, perturbation effects, regulatory validation tables, and a compact Markdown report.
 
+Open the local result browser:
+
+```bash
+Rscript -e "shiny::runApp('shiny', host = '127.0.0.1', port = 3850)"
+```
+
 ## Benchmark Philosophy
 
 This project does not rank methods by one number. A useful benchmark asks:
@@ -127,7 +133,12 @@ This project does not rank methods by one number. A useful benchmark asks:
 - [Roadmap](docs/10_roadmap.md)
 - [Paper-Native Baselines](docs/11_paper_native_baselines.md)
 - [Regulatory Validation Track](docs/12_regulatory_validation_track.md)
+- [Dataset-Aware Method Routing](docs/13_method_routing.md)
+- [External Validation Plan](docs/14_external_validation.md)
+- [Concise Analysis Report](docs/15_concise_analysis_report.md)
+- [Manuscript Draft](manuscript/review_paper_draft.md)
+- [Manuscript Revision Log](manuscript/revision_log.md)
 
 ## Status
 
-This repository is a structured benchmark scaffold. The next implementation step is dataset download and conversion into the common AnnData schema.
+This repository currently contains a runnable demo benchmark, dataset-aware method routing, regulatory validation, a Shiny result browser, and manuscript scaffolding. The next implementation step is public dataset download and conversion into the common AnnData schema.

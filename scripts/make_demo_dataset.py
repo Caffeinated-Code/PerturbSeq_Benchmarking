@@ -102,6 +102,7 @@ def main():
             "condition": "IFNB_stimulated" if stimulated else "resting",
             "cell_type": "microglia_like_demo",
             "cell_state": state,
+            "guide_count": 1,
             "total_counts": total_counts,
             "n_genes": detected_genes,
             "pct_mito": round(random.uniform(0.01, 0.08), 4),
@@ -127,4 +128,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

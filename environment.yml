@@ -15,7 +15,11 @@ dependencies:
   - scikit-learn
   - statsmodels
   - nextflow
+  - r-base
+  - r-shiny
+  - r-bslib
+  - r-dt
+  - r-ggplot2
   - pip
   - pip:
       - pertpy
-

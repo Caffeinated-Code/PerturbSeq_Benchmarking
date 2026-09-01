@@ -28,6 +28,13 @@ REQUIRED_FILES = [
     "docs/10_roadmap.md",
     "docs/11_paper_native_baselines.md",
     "docs/12_regulatory_validation_track.md",
+    "docs/13_method_routing.md",
+    "docs/14_external_validation.md",
+    "docs/15_concise_analysis_report.md",
+    "manuscript/review_paper_draft.md",
+    "manuscript/revision_log.md",
+    "shiny/app.R",
+    "shiny/README.md",
 ]
 
 BLOCKED_PHRASES = [
@@ -76,6 +83,9 @@ def main():
         "docs/10_roadmap.md",
         "docs/11_paper_native_baselines.md",
         "docs/12_regulatory_validation_track.md",
+        "docs/13_method_routing.md",
+        "docs/14_external_validation.md",
+        "docs/15_concise_analysis_report.md",
     ]:
         if doc not in readme:
             errors.append(f"README does not link {doc}")

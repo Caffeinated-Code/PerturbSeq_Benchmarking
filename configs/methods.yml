@@ -21,6 +21,14 @@ methods:
     output_level: perturbation_gene
     source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11100084/
 
+  - id: sceptre_high_moi_or_mixed_moi
+    name: SCEPTRE high-MOI or mixed-MOI workflow
+    year: 2024
+    category: association_testing
+    enabled: false
+    output_level: perturbation_gene
+    source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11100084/
+
   - id: ps
     name: Perturbation-response score
     year: 2025
@@ -51,4 +59,11 @@ methods:
     enabled: false
     output_level: perturbation_embedding
     source: https://www.nature.com/articles/s41592-025-02909-7
+
+  - id: signac_archr_chromvar_track
+    name: Signac, ArchR, and chromVAR regulatory validation
+    year: active
+    category: chromatin_accessibility
+    enabled: false
+    output_level: peak_gene_motif
 
