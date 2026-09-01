@@ -2,6 +2,8 @@
 .nextflow*
 work/
 results/
+!shiny/results/
+!shiny/results/**
 demo_data/
 data/raw/
 data/processed/
@@ -17,4 +19,3 @@ __pycache__/
 .ipynb_checkpoints/
 .venv/
 env/
-

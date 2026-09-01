@@ -19,6 +19,13 @@ EXPECTED = {
     "results/regulatory_validation/regulatory_validation.csv": ["method", "perturbation", "gene", "regulatory_validation_score", "regulatory_validation_status"],
     "results/regulatory_validation/regulatory_validation_summary.csv": ["n_tested_effects", "n_pass", "n_warn", "n_low_support"],
     "results/regulatory_validation/validated_ad_microglia_hits.csv": ["method", "perturbation", "gene", "regulatory_validation_status"],
+    "results/real_public/download_manifest.csv": ["dataset_id", "accession", "file_role", "status"],
+    "results/real_public/public_dataset_provenance.csv": ["dataset_id", "accession", "biology", "readout"],
+    "results/real_public/gse207628_hyprseq_matrix_summary.csv": ["dataset_id", "accession", "n_cells", "n_features"],
+    "results/real_public/gse207628_hyprseq_probe_panel.csv": ["probe_name", "probe_class", "has_umi_stretch"],
+    "results/real_public/gse178317_abundance_summary.csv": ["dataset_id", "accession", "n_genes", "n_samples"],
+    "results/real_public/gse178317_sample_qc.csv": ["sample_id", "sample_group", "n_detected_genes"],
+    "results/real_public/gse178317_microglia_marker_context.csv": ["gene", "status", "max_group"],
     "results/report/demo_report.md": [],
 }
 

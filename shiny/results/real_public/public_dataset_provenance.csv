@@ -1,0 +1,3 @@
+dataset_id,accession,biology,readout,public_source,current_use,scaling_note
+yang_ad_microglia_hyprseq,GSE207628,Alzheimer risk-locus CRISPRi in human iPSC-derived microglia,targeted single-cell HYPR-seq count panel,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE207628,real targeted count-matrix audit and panel-level QC,suitable for local demo and AWS Batch conversion
+drager_microglia_cropseq,GSE178317,human iPSC-derived microglia CRISPRi/a perturbation biology,CROP-seq raw archive plus public RNA abundance context,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE178317,real abundance-context audit; full CROP-seq archive is a scale-up input,"process the raw archive with Nextflow on workstation, HPC, or AWS Batch"

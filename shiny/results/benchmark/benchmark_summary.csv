@@ -1,0 +1,2 @@
+method,n_effects,n_non_neutral_effects,n_ad_gene_effects,n_microglia_state_gene_effects
+simple_pseudobulk,100,14,4,10

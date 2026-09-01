@@ -7,6 +7,12 @@ read_result <- function(path) {
   if (file.exists(path)) read.csv(path, stringsAsFactors = FALSE, check.names = FALSE) else data.frame()
 }
 
+result_path <- function(...) {
+  local_path <- file.path("..", "results", ...)
+  bundled_path <- file.path("results", ...)
+  if (file.exists(local_path)) local_path else bundled_path
+}
+
 term_help <- list(
   "MOI" = "Multiplicity of infection. In this benchmark it is approximated from guide count per cell and guide collision rate.",
   "guide collision rate" = "Fraction of cells with more than one guide. High collision rates can confound single-perturbation interpretation.",
@@ -29,6 +35,7 @@ ui <- page_navbar(
     .metric { font-size: 1.5rem; font-weight: 700; color: #17384f; }
     .small-note { color: #51615c; font-size: 0.92rem; }
     .plot-card { min-height: 420px; }
+    .source-link a { color: #17384f; font-weight: 650; }
   ")),
   nav_panel(
     "Overview",
@@ -81,6 +88,30 @@ ui <- page_navbar(
     card(card_header("Validation score plot"), plotOutput("regulatory_plot", height = "420px"))
   ),
   nav_panel(
+    "Public Dataset Audit",
+    layout_columns(
+      card(card_header("Public files"), DTOutput("download_manifest")),
+      card(card_header("Dataset provenance"), DTOutput("public_provenance"))
+    ),
+    navset_card_tab(
+      nav_panel("GSE207628 matrices", DTOutput("gse207628_summary")),
+      nav_panel("GSE207628 probes", DTOutput("gse207628_probes")),
+      nav_panel("GSE178317 abundance", DTOutput("gse178317_summary")),
+      nav_panel("GSE178317 samples", DTOutput("gse178317_sample_qc")),
+      nav_panel("GSE178317 markers", DTOutput("gse178317_markers"))
+    ),
+    card(
+      card_header("Interpretation"),
+      p("GSE207628 is treated as a targeted single-cell CRISPRi HYPR-seq dataset. The public matrices support count-depth, feature-panel, and replicate-level audits now."),
+      p("GSE178317 is represented here by the public RNA abundance context table. The full raw CROP-seq archive is public and large, so it is routed to the Nextflow or AWS Batch path rather than bundled into this hosted app."),
+      tags$div(class = "source-link",
+        tags$a(href = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE207628", target = "_blank", "GSE207628"),
+        " | ",
+        tags$a(href = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE178317", target = "_blank", "GSE178317")
+      )
+    )
+  ),
+  nav_panel(
     "Report",
     card(card_header("Generated report"), verbatimTextOutput("report_text"))
   )
@@ -88,14 +119,21 @@ ui <- page_navbar(
 
 server <- function(input, output, session) {
   paths <- list(
-    dataset_qc = "../results/qc/dataset_qc.csv",
-    guide_qc = "../results/qc/guide_qc.csv",
-    cell_states = "../results/qc/cell_state_summary.csv",
-    method_decisions = "../results/method_selection/method_decisions.csv",
-    effects = "../results/method/simple_pseudobulk_effects.csv",
-    regulatory = "../results/regulatory_validation/regulatory_validation.csv",
-    regulatory_summary = "../results/regulatory_validation/regulatory_validation_summary.csv",
-    report = "../results/report/demo_report.md"
+    dataset_qc = result_path("qc", "dataset_qc.csv"),
+    guide_qc = result_path("qc", "guide_qc.csv"),
+    cell_states = result_path("qc", "cell_state_summary.csv"),
+    method_decisions = result_path("method_selection", "method_decisions.csv"),
+    effects = result_path("method", "simple_pseudobulk_effects.csv"),
+    regulatory = result_path("regulatory_validation", "regulatory_validation.csv"),
+    regulatory_summary = result_path("regulatory_validation", "regulatory_validation_summary.csv"),
+    download_manifest = result_path("real_public", "download_manifest.csv"),
+    public_provenance = result_path("real_public", "public_dataset_provenance.csv"),
+    gse207628_summary = result_path("real_public", "gse207628_hyprseq_matrix_summary.csv"),
+    gse207628_probes = result_path("real_public", "gse207628_hyprseq_probe_panel.csv"),
+    gse178317_summary = result_path("real_public", "gse178317_abundance_summary.csv"),
+    gse178317_sample_qc = result_path("real_public", "gse178317_sample_qc.csv"),
+    gse178317_markers = result_path("real_public", "gse178317_microglia_marker_context.csv"),
+    report = result_path("report", "demo_report.md")
   )
 
   data <- reactive({
@@ -106,7 +144,14 @@ server <- function(input, output, session) {
       method_decisions = read_result(paths$method_decisions),
       effects = read_result(paths$effects),
       regulatory = read_result(paths$regulatory),
-      regulatory_summary = read_result(paths$regulatory_summary)
+      regulatory_summary = read_result(paths$regulatory_summary),
+      download_manifest = read_result(paths$download_manifest),
+      public_provenance = read_result(paths$public_provenance),
+      gse207628_summary = read_result(paths$gse207628_summary),
+      gse207628_probes = read_result(paths$gse207628_probes),
+      gse178317_summary = read_result(paths$gse178317_summary),
+      gse178317_sample_qc = read_result(paths$gse178317_sample_qc),
+      gse178317_markers = read_result(paths$gse178317_markers)
     )
   })
 
@@ -123,7 +168,7 @@ server <- function(input, output, session) {
   })
 
   output$effect_metric <- renderUI({
-    x <- read_result("../results/benchmark/benchmark_summary.csv")
+    x <- read_result(result_path("benchmark", "benchmark_summary.csv"))
     if (!nrow(x)) return(p("No benchmark summary found."))
     tagList(div(class = "metric", x$n_non_neutral_effects[1]), div(class = "small-note", "non-neutral effects"))
   })
@@ -200,6 +245,13 @@ server <- function(input, output, session) {
   })
 
   output$regulatory_table <- renderDT(datatable(filtered_regulatory(), filter = "top", options = datatable_opts))
+  output$download_manifest <- renderDT(datatable(data()$download_manifest, filter = "top", options = datatable_opts))
+  output$public_provenance <- renderDT(datatable(data()$public_provenance, filter = "top", options = datatable_opts))
+  output$gse207628_summary <- renderDT(datatable(data()$gse207628_summary, filter = "top", options = datatable_opts))
+  output$gse207628_probes <- renderDT(datatable(data()$gse207628_probes, filter = "top", options = datatable_opts))
+  output$gse178317_summary <- renderDT(datatable(data()$gse178317_summary, filter = "top", options = datatable_opts))
+  output$gse178317_sample_qc <- renderDT(datatable(data()$gse178317_sample_qc, filter = "top", options = datatable_opts))
+  output$gse178317_markers <- renderDT(datatable(data()$gse178317_markers, filter = "top", options = datatable_opts))
 
   output$regulatory_plot <- renderPlot({
     x <- filtered_regulatory()
@@ -219,4 +271,3 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
-

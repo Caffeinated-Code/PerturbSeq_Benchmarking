@@ -1,0 +1,2 @@
+n_cells,n_features,n_perturbations,min_cells_per_perturbation,mean_guides_per_cell,guide_collision_rate,moi_class,readout_class,modality
+360,20,6,60,1.0,0.0,low_moi,targeted,RNA

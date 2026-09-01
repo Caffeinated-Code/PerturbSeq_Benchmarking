@@ -31,8 +31,14 @@ REQUIRED_FILES = [
     "docs/13_method_routing.md",
     "docs/14_external_validation.md",
     "docs/15_concise_analysis_report.md",
+    "docs/16_real_public_data_audit.md",
     "manuscript/review_paper_draft.md",
     "manuscript/revision_log.md",
+    "scripts/prepare_shiny_bundle.py",
+    "scripts/deploy_shinyapps.R",
+    "scripts/procure_public_datasets.py",
+    "bin/analyze_gse207628_hyprseq.py",
+    "bin/analyze_gse178317_abundance.py",
     "shiny/app.R",
     "shiny/README.md",
 ]
@@ -86,6 +92,7 @@ def main():
         "docs/13_method_routing.md",
         "docs/14_external_validation.md",
         "docs/15_concise_analysis_report.md",
+        "docs/16_real_public_data_audit.md",
     ]:
         if doc not in readme:
             errors.append(f"README does not link {doc}")

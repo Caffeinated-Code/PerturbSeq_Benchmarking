@@ -1,0 +1,5 @@
+dataset_id,accession,file_role,url,local_path,download_policy,status,bytes
+drager_microglia_cropseq,GSE178317,cropseq_raw_archive,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE178nnn/GSE178317/suppl/GSE178317_RAW.tar,data/raw/GSE178317/GSE178317_RAW.tar,large_file_skip_by_default,skipped,
+yang_ad_microglia_hyprseq,GSE207628,raw_targeted_count_matrices,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE207nnn/GSE207628/suppl/GSE207628_RAW.tar,data/raw/GSE207628/GSE207628_RAW.tar,included_small_public_file,exists,512000
+yang_ad_microglia_hyprseq,GSE207628,hyprseq_probe_panel,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE207nnn/GSE207628/suppl/GSE207628_probes_hyprseq.tsv.gz,data/raw/GSE207628/GSE207628_probes_hyprseq.tsv.gz,included_small_public_file,exists,3865
+drager_microglia_cropseq,GSE178317,microglia_bulk_abundance_context,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE178nnn/GSE178317/suppl/GSE178317_iTF_Microglia_RNAseq_abundance.csv.gz,data/raw/GSE178317/GSE178317_iTF_Microglia_RNAseq_abundance.csv.gz,included_small_public_file,exists,1668560

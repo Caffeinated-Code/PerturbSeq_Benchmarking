@@ -1,0 +1,2 @@
+dataset_id,n_cells,n_genes,n_perturbations,n_guides,n_batches,n_non_targeting_cells,min_cells_per_target,design_status
+demo_synthetic,360,20,6,6,2,60,60,PASS

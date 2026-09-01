@@ -2,6 +2,8 @@
 
 Benchmarking Perturb-seq analysis methods across Alzheimer-relevant microglia and public single-cell CRISPR datasets.
 
+Public Shiny result browser: https://caffeinated-code.shinyapps.io/PerturbSeq_Benchmarking/
+
 ## Why This Project Exists
 
 Perturb-seq links a genetic perturbation to a single-cell molecular phenotype. It can reveal how a gene, enhancer, or regulatory program changes cell state. This matters for Alzheimer biology because many disease-associated variants act in microglia, and microglia can move between homeostatic, inflammatory, phagocytic, interferon-responsive, lipid-handling, and SPP1-like disease states.
@@ -136,9 +138,10 @@ This project does not rank methods by one number. A useful benchmark asks:
 - [Dataset-Aware Method Routing](docs/13_method_routing.md)
 - [External Validation Plan](docs/14_external_validation.md)
 - [Concise Analysis Report](docs/15_concise_analysis_report.md)
+- [Real Public Data Audit](docs/16_real_public_data_audit.md)
 - [Manuscript Draft](manuscript/review_paper_draft.md)
 - [Manuscript Revision Log](manuscript/revision_log.md)
 
 ## Status
 
-This repository currently contains a runnable demo benchmark, dataset-aware method routing, regulatory validation, a Shiny result browser, and manuscript scaffolding. The next implementation step is public dataset download and conversion into the common AnnData schema.
+This repository currently contains a runnable demo benchmark, dataset-aware method routing, regulatory validation, a public Shiny result browser, real public data provenance, and first-pass public dataset audits. Full raw CROP-seq processing remains the heavier Nextflow and AWS Batch path.

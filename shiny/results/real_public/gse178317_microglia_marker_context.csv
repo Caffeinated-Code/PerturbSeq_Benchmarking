@@ -1,0 +1,13 @@
+gene,status,max_group,max_mean_abundance
+AIF1,present,iTF_microglia_day15,534.0276
+APOE,present,iTF_microglia_day9_lps,1138.0567
+C1QA,present,iTF_microglia_day9_lps,199.2629
+C1QB,present,iTF_microglia_day9_lps,218.4996
+C1QC,present,iTF_microglia_day15,94.3623
+CX3CR1,present,iTF_microglia_day15,2.0398
+FGR,present,iTF_microglia_day9_lps,200.27
+ITGAM,present,iTF_microglia_day9_pbs,100.4773
+P2RY12,present,iTF_microglia_day15,1.7406
+SPP1,present,iTF_microglia_day9_lps,4260.1336
+TREM2,present,iTF_microglia_day9_pbs,464.9899
+TYROBP,present,iTF_microglia_day9_pbs,1483.5863

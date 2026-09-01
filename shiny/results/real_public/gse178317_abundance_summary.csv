@@ -1,0 +1,2 @@
+dataset_id,accession,analysis_level,n_genes,n_samples,n_sample_groups,n_microglia_markers_present,raw_cropseq_archive_status
+drager_microglia_cropseq,GSE178317,public_abundance_context,60232,18,4,12,public_large_archive_not_bundled
