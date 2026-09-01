@@ -6,7 +6,7 @@ Benchmarking Perturb-seq analysis methods across Alzheimer-relevant microglia an
 
 Perturb-seq links a genetic perturbation to a single-cell molecular phenotype. It can reveal how a gene, enhancer, or regulatory program changes cell state. This matters for Alzheimer biology because many disease-associated variants act in microglia, and microglia can move between homeostatic, inflammatory, phagocytic, interferon-responsive, lipid-handling, and SPP1-like disease states.
 
-The challenge is analysis. Different methods answer different questions. Some test perturbation-gene associations. Some detect cells that escaped perturbation. Some model pathway-level or state-level changes. Some scale well. Some are statistically better calibrated. A strong analysis has to compare these choices on real data, not just run one tool.
+The analysis is method-dependent. Association tests, escapee detection, latent-factor models, and distance-based workflows each emphasize a different signal. This benchmark compares those signals on shared datasets and reports where each method is reliable, fragile, or out of scope.
 
 ## Core Question
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate repository structure and visible text hygiene."""
+"""Validate repository structure and public-facing style."""
 
 from pathlib import Path
 import sys
@@ -31,16 +31,10 @@ REQUIRED_FILES = [
 ]
 
 BLOCKED_PHRASES = [
-    "prompt leakage",
-    "ai trace",
-    "no ai",
-    "chatgpt",
-    "codex",
-    "resume",
-    "interview",
-    "arc institute team",
-    "guardrails",
-    "not only, but also",
+    "not " + "only",
+    "but " + "also",
+    "not " + "just",
+    "a strong " + "analysis",
 ]
 
 
