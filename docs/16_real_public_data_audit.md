@@ -62,6 +62,13 @@ python bin/analyze_gse178317_abundance.py --outdir results/real_public
 python scripts/prepare_shiny_bundle.py
 ```
 
+The same steps can be run through the modular replication script:
+
+```bash
+bash scripts/run_analysis_modules.sh public
+bash scripts/run_analysis_modules.sh bundle
+```
+
 For the full GSE178317 CROP-seq raw archive:
 
 ```bash

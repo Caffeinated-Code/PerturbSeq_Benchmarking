@@ -57,3 +57,24 @@ The cross-dataset report should answer:
 - Which method scaled best?
 - Which method was most useful for microglia-state interpretation?
 - Which datasets were incompatible with each method, and why?
+
+## Modular Replication
+
+Use `scripts/run_analysis_modules.sh` when you want to rerun a specific stage.
+
+| Module | Command | Output |
+|---|---|---|
+| `demo` | `bash scripts/run_analysis_modules.sh demo` | demo input CSVs |
+| `nextflow` | `bash scripts/run_analysis_modules.sh nextflow` | QC, method, benchmark, validation, and report outputs |
+| `public` | `bash scripts/run_analysis_modules.sh public` | public dataset manifests and lightweight audits |
+| `bundle` | `bash scripts/run_analysis_modules.sh bundle` | Shiny-ready result bundle |
+| `validate` | `bash scripts/run_analysis_modules.sh validate` | repository, output, and Shiny checks |
+| `all` | `bash scripts/run_analysis_modules.sh all` | full lightweight local replication |
+
+The `nextflow` module accepts environment variables:
+
+```bash
+PROFILE=aws \
+OUTDIR=s3://your-bucket/perturbseq/demo \
+bash scripts/run_analysis_modules.sh nextflow
+```

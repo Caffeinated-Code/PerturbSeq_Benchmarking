@@ -103,6 +103,22 @@ The demo run is intentionally small. Full public datasets can be large and shoul
 
 The demo pipeline writes baseline QC, perturbation effects, regulatory validation tables, and a compact Markdown report.
 
+Run analysis modules one step at a time:
+
+```bash
+bash scripts/run_analysis_modules.sh demo
+bash scripts/run_analysis_modules.sh nextflow
+bash scripts/run_analysis_modules.sh public
+bash scripts/run_analysis_modules.sh bundle
+bash scripts/run_analysis_modules.sh validate
+```
+
+Run the full lightweight workflow:
+
+```bash
+bash scripts/run_analysis_modules.sh all
+```
+
 Open the local result browser:
 
 ```bash

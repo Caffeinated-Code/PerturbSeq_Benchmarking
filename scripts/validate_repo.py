@@ -37,6 +37,7 @@ REQUIRED_FILES = [
     "scripts/prepare_shiny_bundle.py",
     "scripts/deploy_shinyapps.R",
     "scripts/procure_public_datasets.py",
+    "scripts/run_analysis_modules.sh",
     "bin/analyze_gse207628_hyprseq.py",
     "bin/analyze_gse178317_abundance.py",
     "shiny/app.R",
