@@ -115,4 +115,6 @@ Disagreement is valuable. It can reveal weak guide efficiency, cell-state-specif
 - Separate target knockdown from downstream biology.
 - Report runtime and memory next to biological results.
 - Keep raw conclusions linked to dataset design.
-
+- Do not compute a single composite rank. Report pairwise agreement and metric-specific tradeoffs.
+- Include confidence intervals or resampling uncertainty and sensitivity to downsampling/covariates in conclusions.
+- Synthetic controls validate calibration and recovery behavior; they cannot establish biological superiority.

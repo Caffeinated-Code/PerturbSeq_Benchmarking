@@ -4,7 +4,7 @@ params.dataset_manifest = "configs/datasets.yml"
 params.method_manifest = "configs/methods.yml"
 params.outdir = "results/demo"
 params.demo_outdir = "demo_data"
-params.method = "simple_pseudobulk"
+params.method = "transparent_pseudobulk"
 
 process MAKE_DEMO_DATASET {
   tag "demo_synthetic"
@@ -87,9 +87,11 @@ process RUN_METHOD {
   input:
   path cells
   path expression
+  path method_decisions
 
   output:
-  path "method/${params.method}_effects.csv", emit: effects
+  path "method/method_status.csv", emit: method_status
+  path "method/effects.csv", optional: true, emit: effects
 
   script:
   """
@@ -97,6 +99,7 @@ process RUN_METHOD {
     --cells ${cells} \
     --expression ${expression} \
     --method ${params.method} \
+    --decision-file ${method_decisions} \
     --outdir method
   """
 }
@@ -107,14 +110,16 @@ process SCORE_BENCHMARK {
 
   input:
   path effects
+  path method_status
 
   output:
-  path "benchmark/benchmark_summary.csv", emit: benchmark_summary
+  path "benchmark/benchmark_metrics.csv", emit: benchmark_summary
 
   script:
   """
   python ${projectDir}/bin/score_benchmark.py \
     --effects ${effects} \
+    --status ${method_status} \
     --outdir benchmark
   """
 }
@@ -174,8 +179,8 @@ workflow {
   regulatory_demo = MAKE_DEMO_REGULATORY_DATA()
   qc = BASELINE_QC(demo.cells, demo.expression)
   selection = SELECT_METHODS(demo.cells, demo.expression)
-  method = RUN_METHOD(demo.cells, demo.expression)
-  score = SCORE_BENCHMARK(method.effects)
+  method = RUN_METHOD(demo.cells, demo.expression, selection.method_decisions)
+  score = SCORE_BENCHMARK(method.effects, method.method_status)
   regulatory = REGULATORY_VALIDATION(method.effects, regulatory_demo.peaks, regulatory_demo.peak_to_gene, regulatory_demo.motifs)
   MAKE_REPORT(qc.dataset_qc, score.benchmark_summary, selection.method_decisions, regulatory.regulatory_summary)
 }

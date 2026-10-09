@@ -47,5 +47,4 @@ These files are included in the benchmark report.
 
 ## Current Implementation
 
-`bin/select_methods.py` implements the first routing layer for CSV demo inputs. Real AnnData-based routing should extend the same rules after dataset conversion.
-
+`bin/select_methods.py` implements the executable CSV routing contract. It distinguishes `RUN` candidates from `INCOMPATIBLE` methods; execution then resolves `RUN`, `FAILED`, and `NOT_AVAILABLE` in `method_status.csv`. See `17_executable_method_contract.md` for exact semantics and version pins.

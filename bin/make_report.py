@@ -27,7 +27,10 @@ def main():
     args = parser.parse_args()
 
     qc = read_first(args.dataset_qc)
-    summary = read_first(args.benchmark_summary)
+    benchmark_rows = read_rows(args.benchmark_summary)
+    summary = {row.get("metric"): row.get("value") for row in benchmark_rows}
+    method_id = benchmark_rows[0].get("method_id", "NA") if benchmark_rows else "NA"
+    method_status = benchmark_rows[0].get("method_status", "NA") if benchmark_rows else "NA"
     method_decisions = read_rows(args.method_decisions) if args.method_decisions else []
     regulatory = read_first(args.regulatory_summary) if args.regulatory_summary else {}
     out = Path(args.out)
@@ -44,11 +47,12 @@ def main():
         "",
         "## Benchmark Summary",
         "",
-        f"- method: {summary.get('method', 'NA')}",
-        f"- tested effects: {summary.get('n_effects', 'NA')}",
-        f"- non-neutral effects: {summary.get('n_non_neutral_effects', 'NA')}",
-        f"- Alzheimer gene effects: {summary.get('n_ad_gene_effects', 'NA')}",
-        f"- microglia-state gene effects: {summary.get('n_microglia_state_gene_effects', 'NA')}",
+        f"- method: {method_id}",
+        f"- execution status: {method_status}",
+        f"- FDR discoveries: {summary.get('fdr_discoveries', 'NA')}",
+        f"- target engagement rate: {summary.get('target_engagement_rate', 'NA')}",
+        f"- runtime seconds: {summary.get('runtime_seconds', 'NA')}",
+        f"- peak memory MB: {summary.get('peak_memory_mb', 'NA')}",
         "",
         "## Method Selection",
         "",

@@ -6,12 +6,14 @@ methods:
     enabled: true
     output_level: dataset_specific
 
-  - id: simple_pseudobulk
-    name: Pseudobulk differential expression baseline
+  - id: transparent_pseudobulk
+    name: Transparent replicate-pseudobulk baseline
     year: baseline
     category: baseline
     enabled: true
     output_level: perturbation_gene
+    version: builtin-1
+    compatibility: RNA or targeted RNA; non-targeting controls; replicate/batch metadata recommended
 
   - id: sceptre_low_moi
     name: SCEPTRE low-MOI
@@ -20,6 +22,8 @@ methods:
     enabled: false
     output_level: perturbation_gene
     source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11100084/
+    version: 21f9ea098b69c444a884a49bc254de711968e3b5
+    compatibility: low-MOI RNA only; distinct from high/mixed-MOI analysis
 
   - id: sceptre_high_moi_or_mixed_moi
     name: SCEPTRE high-MOI or mixed-MOI workflow
@@ -28,6 +32,8 @@ methods:
     enabled: false
     output_level: perturbation_gene
     source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11100084/
+    version: 21f9ea098b69c444a884a49bc254de711968e3b5
+    compatibility: high/mixed-MOI RNA with guide assignments and covariates
 
   - id: ps
     name: Perturbation-response score
@@ -36,6 +42,8 @@ methods:
     enabled: false
     output_level: cell_and_perturbation
     source: https://www.nature.com/articles/s41556-025-01626-9
+    version: e24aa0f3c9734c26ffbc200107adf0e199b26208
+    compatibility: RNA response signature with non-targeting controls; scMAGeCK API
 
   - id: gsfa
     name: Guided sparse factor analysis
@@ -44,6 +52,8 @@ methods:
     enabled: false
     output_level: perturbation_module
     source: https://www.nature.com/articles/s41592-023-02017-4
+    version: 8e7cf03fdeeb008ef7dec7b6bc6407642d14376e
+    compatibility: whole-transcriptome normalized RNA and multi-perturbation design
 
   - id: mixscape
     name: Mixscape
@@ -51,6 +61,9 @@ methods:
     category: perturbation_classification
     enabled: false
     output_level: cell_and_guide
+    source: https://satijalab.org/seurat/reference/runmixscape
+    version: 5.3.0
+    compatibility: whole-transcriptome RNA with non-targeting cells and sufficient DE features
 
   - id: pertpy_distance
     name: pertpy perturbation-distance workflow
@@ -59,6 +72,8 @@ methods:
     enabled: false
     output_level: perturbation_embedding
     source: https://www.nature.com/articles/s41592-025-02909-7
+    version: 0.10.0
+    compatibility: Python 3.10-3.12; AnnData-compatible RNA groups
 
   - id: signac_archr_chromvar_track
     name: Signac, ArchR, and chromVAR regulatory validation
@@ -66,4 +81,3 @@ methods:
     category: chromatin_accessibility
     enabled: false
     output_level: peak_gene_motif
-

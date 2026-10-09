@@ -1,100 +1,63 @@
 #!/usr/bin/env python3
-"""Profile a perturbation dataset and recommend compatible analyses."""
-
-import argparse
-import csv
+"""Create a measured dataset profile and auditable method-routing decisions."""
+import argparse, csv
 from collections import Counter
 from pathlib import Path
 
+METHODS = ("native_paper", "transparent_pseudobulk", "sceptre_low_moi", "sceptre_high_moi_or_mixed_moi", "mixscape", "ps", "gsfa", "pertpy_distance")
 
 def read_csv(path):
-    with open(path, newline="") as handle:
-        return list(csv.DictReader(handle))
-
+    with open(path, newline="") as handle: return list(csv.DictReader(handle))
 
 def write_csv(path, rows, fields):
     with open(path, "w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
-        writer.writeheader()
-        writer.writerows(rows)
+        writer = csv.DictWriter(handle, fieldnames=fields); writer.writeheader(); writer.writerows(rows)
 
-
-def number(value, default=0.0):
-    try:
-        return float(value)
-    except (TypeError, ValueError):
-        return default
-
-
-def status(enabled, reason):
-    return "RUN" if enabled else "SKIP", reason
-
+def num(value, default=0.0):
+    try: return float(value)
+    except (TypeError, ValueError): return default
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--cells", required=True)
-    parser.add_argument("--expression", required=True)
-    parser.add_argument("--modality", default="RNA")
-    parser.add_argument("--outdir", required=True)
-    args = parser.parse_args()
+    p = argparse.ArgumentParser()
+    p.add_argument("--cells", required=True); p.add_argument("--expression", required=True)
+    p.add_argument("--modality", default="RNA")
+    p.add_argument("--readout-class", choices=("auto", "targeted", "whole_transcriptome"), default="auto")
+    p.add_argument("--native-baseline", default=""); p.add_argument("--outdir", required=True)
+    args = p.parse_args(); outdir = Path(args.outdir); outdir.mkdir(parents=True, exist_ok=True)
+    cells, expression = read_csv(args.cells), read_csv(args.expression)
+    fields = set(cells[0]) if cells else set(); n_features = max(0, len(expression[0]) - 1) if expression else 0
+    guide_counts = [num(r.get("guide_count", 1), 1) for r in cells]
+    mean_guides = sum(guide_counts) / len(guide_counts) if guide_counts else 0
+    collision = sum(x > 1 for x in guide_counts) / len(guide_counts) if guide_counts else 0
+    counts = Counter(r.get("perturbation", "unknown") for r in cells)
+    targeting = [v for k, v in counts.items() if k not in {"NTC", "non_targeting", "control"}]
+    min_coverage = min(targeting) if targeting else 0; modality = args.modality.lower()
+    has_rna = "rna" in modality or "transcript" in modality
+    targeted = args.readout_class == "targeted" or (args.readout_class == "auto" and n_features < 500)
+    low_moi = mean_guides <= 1.2 and collision <= 0.15
+    replicate_values = {r.get("replicate") or r.get("batch") for r in cells if r.get("replicate") or r.get("batch")}
+    n_controls = sum(r.get("control_type") == "non_targeting" for r in cells)
+    covariates = [x for x in ("batch", "replicate", "donor", "condition", "cell_type") if x in fields]
+    profile = [{"n_cells": len(cells), "n_features": n_features, "n_perturbations": len(counts),
+        "n_guides": len({r.get("guide_id") for r in cells if r.get("guide_id")}),
+        "min_cells_per_perturbation": min_coverage, "mean_guides_per_cell": round(mean_guides, 4),
+        "guide_collision_rate": round(collision, 4), "moi_class": "low_moi" if low_moi else "high_or_mixed_moi",
+        "readout_class": "targeted" if targeted else "whole_transcriptome", "modality": args.modality,
+        "n_replicates": len(replicate_values), "n_non_targeting_controls": n_controls, "covariates": ";".join(covariates)}]
+    write_csv(outdir / "dataset_profile.csv", profile, list(profile[0]))
+    rules = {
+      "native_paper": (bool(args.native_baseline), "No dataset-specific native baseline adapter was declared.", f"Declared adapter: {args.native_baseline}"),
+      "transparent_pseudobulk": (has_rna and min_coverage >= 20 and n_controls >= 20, "Needs RNA, >=20 cells/target, and >=20 non-targeting controls.", "Transparent RNA baseline with control comparison."),
+      "sceptre_low_moi": (has_rna and low_moi and min_coverage >= 20 and n_controls >= 20, "Restricted to low-MOI RNA with adequate targets and controls.", "Measured low-MOI path; never substitute the high-MOI model."),
+      "sceptre_high_moi_or_mixed_moi": (has_rna and not low_moi and min_coverage >= 20 and n_controls >= 20, "Restricted to high/mixed-MOI RNA with adequate targets and controls.", "Measured high/mixed-MOI path with guide-collision modeling."),
+      "mixscape": (has_rna and not targeted and min_coverage >= 20 and n_controls >= 20, "Requires whole-transcriptome RNA; targeted panels are incompatible.", "Whole-transcriptome perturbation classification."),
+      "ps": (has_rna and n_features >= 50 and min_coverage >= 20 and n_controls >= 20, "Requires an RNA response signature of >=50 genes, targets, and controls.", "Perturbation-response scoring on an RNA signature."),
+      "gsfa": (has_rna and not targeted and len(counts) >= 3 and min_coverage >= 20, "Requires whole-transcriptome RNA and multiple perturbations; targeted panels are incompatible.", "Latent perturbation-program inference."),
+      "pertpy_distance": (has_rna and min_coverage >= 2 and n_controls >= 2, "Requires RNA groups with controls and at least two cells per target.", "Group-wise perturbation distance analysis.")}
+    rows = []
+    for method in METHODS:
+        ok, bad, good = rules[method]
+        rows.append({"method_id": method, "decision": "RUN" if ok else "INCOMPATIBLE", "reason": good if ok else bad})
+    write_csv(outdir / "method_decisions.csv", rows, ["method_id", "decision", "reason"])
 
-    outdir = Path(args.outdir)
-    outdir.mkdir(parents=True, exist_ok=True)
-    cells = read_csv(args.cells)
-    expression = read_csv(args.expression)
-
-    n_cells = len(cells)
-    n_genes = len(expression[0]) - 1 if expression else 0
-    guide_counts = [number(row.get("guide_count", 1), 1) for row in cells]
-    mean_guides_per_cell = sum(guide_counts) / len(guide_counts) if guide_counts else 0
-    collision_rate = sum(count > 1 for count in guide_counts) / len(guide_counts) if guide_counts else 0
-    perturbation_counts = Counter(row.get("perturbation", "unknown") for row in cells)
-    min_cells_per_perturbation = min(perturbation_counts.values()) if perturbation_counts else 0
-    modalities = {args.modality.lower()}
-    if any("protein" in key.lower() for key in cells[0].keys()) if cells else False:
-        modalities.add("protein")
-
-    is_low_moi = mean_guides_per_cell <= 1.2 and collision_rate <= 0.15
-    is_high_moi = mean_guides_per_cell > 1.2 or collision_rate > 0.15
-    is_targeted = n_genes < 500
-    has_rna = "rna" in args.modality.lower() or "targeted" in args.modality.lower()
-    has_chromatin = "atac" in args.modality.lower() or "chromatin" in args.modality.lower()
-
-    profile = [{
-        "n_cells": n_cells,
-        "n_features": n_genes,
-        "n_perturbations": len(perturbation_counts),
-        "min_cells_per_perturbation": min_cells_per_perturbation,
-        "mean_guides_per_cell": round(mean_guides_per_cell, 4),
-        "guide_collision_rate": round(collision_rate, 4),
-        "moi_class": "low_moi" if is_low_moi else "high_or_mixed_moi",
-        "readout_class": "targeted" if is_targeted else "whole_transcriptome",
-        "modality": args.modality,
-    }]
-    write_csv(outdir / "dataset_profile.csv", profile, list(profile[0].keys()))
-
-    decisions = []
-    decision, reason = status(True, "Run the dataset-specific baseline when source-study design is available.")
-    decisions.append({"method_id": "native_paper", "decision": decision, "reason": reason})
-    decision, reason = status(has_rna and min_cells_per_perturbation >= 20, "Requires RNA features and enough cells per perturbation.")
-    decisions.append({"method_id": "simple_pseudobulk", "decision": decision, "reason": reason})
-    decision, reason = status(has_rna and is_low_moi and min_cells_per_perturbation >= 20, "Run only for low-MOI designs with limited guide collisions.")
-    decisions.append({"method_id": "sceptre_low_moi", "decision": decision, "reason": reason})
-    decision, reason = status(has_rna and is_high_moi and min_cells_per_perturbation >= 20, "Use high-MOI or mixed-MOI association models when guide collisions are frequent.")
-    decisions.append({"method_id": "sceptre_high_moi_or_mixed_moi", "decision": decision, "reason": reason})
-    decision, reason = status(has_rna and not is_targeted and min_cells_per_perturbation >= 20, "Perturbed-cell classification is best supported by whole-transcriptome signatures.")
-    decisions.append({"method_id": "mixscape", "decision": decision, "reason": reason})
-    decision, reason = status(has_rna and not is_targeted and min_cells_per_perturbation >= 20, "Latent-factor models need enough transcriptome-wide signal.")
-    decisions.append({"method_id": "gsfa", "decision": decision, "reason": reason})
-    decision, reason = status(has_rna and min_cells_per_perturbation >= 20, "Response scoring can be used for RNA or targeted RNA with careful interpretation.")
-    decisions.append({"method_id": "ps", "decision": decision, "reason": reason})
-    decision, reason = status(True, "Use as the scverse-compatible organizing workflow for compatible objects.")
-    decisions.append({"method_id": "pertpy_distance", "decision": decision, "reason": reason})
-    decision, reason = status(has_chromatin, "Run chromatin methods only for scATAC, multiome, or peak-linked validation resources.")
-    decisions.append({"method_id": "signac_archr_chromvar_track", "decision": decision, "reason": reason})
-
-    write_csv(outdir / "method_decisions.csv", decisions, ["method_id", "decision", "reason"])
-
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": main()

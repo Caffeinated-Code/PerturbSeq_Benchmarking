@@ -22,4 +22,5 @@ dependencies:
   - r-ggplot2
   - pip
   - pip:
-      - pertpy
+      # 0.10.0 is the last pinned line compatible with this environment's Python 3.11.
+      - pertpy==0.10.0
