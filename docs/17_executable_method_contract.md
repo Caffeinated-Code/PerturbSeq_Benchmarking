@@ -20,7 +20,7 @@ An absent package is never reported as `RUN`. A transparent baseline is never re
 |---|---|---|---|
 | transparent pseudobulk | `builtin-1` | `bin/run_method.py` | RNA/targeted RNA, controls, adequate coverage; aggregates by replicate or batch before inference. |
 | SCEPTRE | commit `21f9ea098b69c444a884a49bc254de711968e3b5` | `bin/adapters/run_r_method.R` | Low-MOI and high/mixed-MOI routes are separate. Counts, binary guide assignments, controls, and covariates are required. |
-| Mixscape | Seurat `5.3.0` | same | Whole-transcriptome RNA only. Requires non-targeting cells and enough genes to form perturbation signatures. |
+| Mixscape | Seurat `5.3.0` | same | Whole-transcriptome RNA only. Requires non-targeting cells, enough genes to form perturbation signatures, and Seurat's `mixtools` dependency. |
 | perturbation-response score | scMAGeCK commit `e24aa0f3c9734c26ffbc200107adf0e199b26208` | same | RNA response signature, guide table, perturbation label, and non-targeting label. Targeted panels below 50 genes are rejected. |
 | GSFA | commit `8e7cf03fdeeb008ef7dec7b6bc6407642d14376e` | same | Whole-transcriptome normalized RNA, multiple perturbations, and enough features for factors. |
 | pertpy distance | `0.10.0` | `bin/run_method.py` | Python 3.10–3.12, AnnData-compatible grouped RNA data, controls. Uses energy distance. |

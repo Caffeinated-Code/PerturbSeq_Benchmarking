@@ -63,7 +63,7 @@ methods:
     output_level: cell_and_guide
     source: https://satijalab.org/seurat/reference/runmixscape
     version: 5.3.0
-    compatibility: whole-transcriptome RNA with non-targeting cells and sufficient DE features
+    compatibility: whole-transcriptome RNA with non-targeting cells and sufficient DE features; R mixtools dependency
 
   - id: pertpy_distance
     name: pertpy perturbation-distance workflow

@@ -23,7 +23,7 @@ if (method == "mixscape") {
   obj <- Seurat::FindVariableFeatures(obj, verbose=FALSE)
   obj <- Seurat::ScaleData(obj, verbose=FALSE)
   obj <- Seurat::RunPCA(obj, verbose=FALSE)
-  obj <- Seurat::CalcPerturbSig(obj, assay="RNA", slot="data", gd.class="perturbation", nt.cell.class="NTC", reduction="pca", ndims=10, verbose=FALSE)
+  obj <- Seurat::CalcPerturbSig(obj, assay="RNA", slot="data", gd.class="perturbation", nt.cell.class="NTC", reduction="pca", ndims=10, num.neighbors=20, verbose=FALSE)
   obj <- Seurat::RunMixscape(obj, assay="PRTB", slot="scale.data", labels="perturbation", nt.class.name="NTC", de.assay="RNA", verbose=FALSE)
   out <- data.frame(cell_id=colnames(obj), perturbation=obj$perturbation,
                     escapee_class=obj$mixscape_class.global, posterior_probability=obj$p_ko)
