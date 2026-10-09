@@ -17,7 +17,7 @@ term_help <- list(
   "MOI" = "Multiplicity of infection. In this benchmark it is approximated from guide count per cell and guide collision rate.",
   "guide collision rate" = "Fraction of cells with more than one guide. High collision rates can confound single-perturbation interpretation.",
   "pseudobulk" = "Aggregation of cells within perturbation or replicate groups before differential testing or effect estimation.",
-  "regulatory validation" = "Comparison of perturbation hits against chromatin accessibility, peak-to-gene, motif, and disease-locus evidence.",
+  "regulatory support" = "Independent observational or genetic context for a perturbation result. It is not causal validation.",
   "LOW_SUPPORT" = "The current regulatory resources do not provide strong support for the hit. This is not evidence that the perturbation result is false."
 )
 
@@ -36,19 +36,25 @@ ui <- page_navbar(
     .small-note { color: #51615c; font-size: 0.92rem; }
     .plot-card { min-height: 420px; }
     .source-link a { color: #17384f; font-weight: 650; }
+    .demo-banner { background: #fff3cd; border: 1px solid #e4c766; padding: 0.8rem; margin: 0.8rem 0; font-weight: 650; }
   ")),
+  tags$div(class = "demo-banner", "Bundled results are synthetic infrastructure tests. They are not biological findings and do not show that listed benchmark methods ran."),
   nav_panel(
     "Overview",
     layout_columns(
       card(card_header("Dataset"), uiOutput("dataset_metric")),
       card(card_header("Effects"), uiOutput("effect_metric")),
-      card(card_header("Regulatory validation"), uiOutput("regulatory_metric"))
+      card(card_header("Regulatory support"), uiOutput("regulatory_metric"))
     ),
     card(
       card_header("Analysis summary"),
       p("This browser displays generated benchmark outputs. Run the Nextflow workflow before using it for real datasets."),
-      p(help_button("MOI"), " and ", help_button("regulatory validation"), " are explained through clickable terms.")
+      p(help_button("MOI"), " and ", help_button("regulatory support"), " are explained through clickable terms.")
     )
+  ),
+  nav_panel(
+    "Design / MOI",
+    card(card_header("Experimental design"), p("Guide multiplicity, controls, donor/replicate structure, and readout breadth determine which methods are applicable."), DTOutput("dataset_qc_design"))
   ),
   nav_panel(
     "Dataset QC",
@@ -60,8 +66,8 @@ ui <- page_navbar(
   ),
   nav_panel(
     "Method Selection",
-    card(card_header("Dataset-aware method decisions"), DTOutput("method_decisions")),
-    card(card_header("Method selection plot"), plotOutput("method_plot", height = "360px"))
+    card(card_header("Method applicability (eligibility, not execution)"), p("RUN in the bundled legacy table means eligible to run. It does not mean completed."), DTOutput("method_decisions")),
+    card(card_header("Eligibility summary"), plotOutput("method_plot", height = "360px"))
   ),
   nav_panel(
     "Perturbation Effects",
@@ -76,16 +82,22 @@ ui <- page_navbar(
     card(card_header("Effect-size plot"), plotOutput("effect_plot", height = "420px"))
   ),
   nav_panel(
-    "Regulatory Validation",
+    "Regulatory Support",
     layout_columns(
       col_widths = c(3, 9),
       card(
         card_header("Filters"),
         uiOutput("regulatory_filters")
       ),
-      card(card_header("Validation table"), DTOutput("regulatory_table"))
+      card(card_header("Observational support table"), DTOutput("regulatory_table"))
     ),
-    card(card_header("Validation score plot"), plotOutput("regulatory_plot", height = "420px"))
+    card(card_header("Legacy demo support score"), p("This additive score is retained only as a synthetic UI fixture; evidence tiers are the scientific contract."), plotOutput("regulatory_plot", height = "420px"))
+  ),
+  nav_panel(
+    "Limitations & Provenance",
+    card(card_header("Interpretation limits"), p("Observational atlases corroborate context but do not establish perturbation causality. Peak-to-gene and QTL links are probabilistic. Missing support may reflect coverage."), p("ClinVar assertions remain separate from Alzheimer association and functional evidence.")),
+    card(card_header("Provenance"), DTOutput("provenance_table")),
+    downloadButton("download_regulatory", "Download displayed support table")
   ),
   nav_panel(
     "Public Dataset Audit",
@@ -176,11 +188,12 @@ server <- function(input, output, session) {
   output$regulatory_metric <- renderUI({
     x <- data()$regulatory_summary
     if (!nrow(x)) return(p("No regulatory validation summary found."))
-    tagList(div(class = "metric", x$n_pass[1]), div(class = "small-note", "validated hits"))
+    tagList(div(class = "metric", x$n_pass[1]), div(class = "small-note", "synthetic examples above legacy support threshold"))
   })
 
   datatable_opts <- list(pageLength = 12, scrollX = TRUE, searchHighlight = TRUE)
   output$dataset_qc <- renderDT(datatable(data()$dataset_qc, filter = "top", options = datatable_opts))
+  output$dataset_qc_design <- renderDT(datatable(data()$dataset_qc, filter = "top", options = datatable_opts))
   output$guide_qc <- renderDT(datatable(data()$guide_qc, filter = "top", options = datatable_opts))
   output$cell_states <- renderDT(datatable(data()$cell_states, filter = "top", options = datatable_opts))
   output$method_decisions <- renderDT(datatable(data()$method_decisions, filter = "top", options = datatable_opts))
@@ -191,7 +204,7 @@ server <- function(input, output, session) {
     ggplot(x, aes(x = decision, fill = decision)) +
       geom_bar(width = 0.65) +
       scale_fill_manual(values = c(RUN = "#2f7d5c", SKIP = "#9aa6a1")) +
-      labs(x = NULL, y = "Methods", title = "Dataset-aware method routing") +
+      labs(x = NULL, y = "Methods", title = "Dataset-aware eligibility; execution status is separate") +
       theme_minimal(base_size = 13) +
       theme(legend.position = "none")
   })
@@ -231,7 +244,7 @@ server <- function(input, output, session) {
     x <- data()$regulatory
     req(nrow(x))
     tagList(
-      selectInput("reg_status", "Validation status", c("All", sort(unique(x$regulatory_validation_status)))),
+      selectInput("reg_status", "Legacy demo support status", c("All", sort(unique(x$regulatory_validation_status)))),
       selectInput("reg_motif", "Motif", c("All", sort(unique(x$best_microglia_motif[x$best_microglia_motif != ""]))))
     )
   })
@@ -247,6 +260,7 @@ server <- function(input, output, session) {
   output$regulatory_table <- renderDT(datatable(filtered_regulatory(), filter = "top", options = datatable_opts))
   output$download_manifest <- renderDT(datatable(data()$download_manifest, filter = "top", options = datatable_opts))
   output$public_provenance <- renderDT(datatable(data()$public_provenance, filter = "top", options = datatable_opts))
+  output$provenance_table <- renderDT(datatable(data()$public_provenance, filter = "top", options = datatable_opts))
   output$gse207628_summary <- renderDT(datatable(data()$gse207628_summary, filter = "top", options = datatable_opts))
   output$gse207628_probes <- renderDT(datatable(data()$gse207628_probes, filter = "top", options = datatable_opts))
   output$gse178317_summary <- renderDT(datatable(data()$gse178317_summary, filter = "top", options = datatable_opts))
@@ -260,9 +274,14 @@ server <- function(input, output, session) {
       geom_col() +
       coord_flip() +
       scale_fill_manual(values = c(PASS = "#2f7d5c", WARN = "#b7791f", LOW_SUPPORT = "#9aa6a1")) +
-      labs(x = NULL, y = "Validation score", title = "Chromatin-supported perturbation effects") +
+      labs(x = NULL, y = "Legacy demo support score", title = "Synthetic infrastructure fixture") +
       theme_minimal(base_size = 13)
   })
+
+  output$download_regulatory <- downloadHandler(
+    filename = function() "regulatory_support_display.csv",
+    content = function(file) write.csv(filtered_regulatory(), file, row.names = FALSE)
+  )
 
   output$report_text <- renderText({
     if (!file.exists(paths$report)) return("No report file found.")

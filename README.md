@@ -21,7 +21,7 @@ Which analysis strategies best recover credible perturbation effects, microglial
 - standardize data into an AnnData-based schema
 - run baseline single-cell QC and perturbation QC
 - benchmark recent analysis methods
-- validate RNA perturbation hits against chromatin accessibility evidence
+- contextualize RNA perturbation hits with separately typed chromatin, genetic, and clinical evidence
 - reproduce paper-native analyses where possible
 - compare methods using statistical, biological, and scalability metrics
 - summarize where each method is strong, fragile, or inappropriate
@@ -41,9 +41,9 @@ The first benchmark tier uses:
 
 See [Dataset Catalog](docs/03_dataset_catalog.md).
 
-## Regulatory Validation Track
+## Regulatory Support Track
 
-Perturb-seq identifies genes and pathways affected by perturbation. The regulatory validation track asks whether those hits are supported by Alzheimer or microglia chromatin evidence.
+Perturb-seq identifies genes and pathways affected by perturbation. The regulatory support track asks whether those hits are corroborated by Alzheimer or microglia resources. Observational support is not causal validation.
 
 It checks:
 
@@ -155,9 +155,12 @@ This project does not rank methods by one number. A useful benchmark asks:
 - [External Validation Plan](docs/14_external_validation.md)
 - [Concise Analysis Report](docs/15_concise_analysis_report.md)
 - [Real Public Data Audit](docs/16_real_public_data_audit.md)
+- [Result Product Data Contract](docs/17_app_data_contract.md)
+- [Future Blog Series Editorial Brief](docs/18_blog_series_outline.md)
+- [Expert Gap Assessment](docs/19_expert_gap_assessment.md)
 - [Manuscript Draft](manuscript/review_paper_draft.md)
 - [Manuscript Revision Log](manuscript/revision_log.md)
 
 ## Status
 
-This repository currently contains a runnable demo benchmark, dataset-aware method routing, regulatory validation, a public Shiny result browser, real public data provenance, and first-pass public dataset audits. Full raw CROP-seq processing remains the heavier Nextflow and AWS Batch path.
+This repository currently contains a runnable synthetic infrastructure demo, dataset-aware method eligibility rules, an evidence schema, a Shiny result-browser prototype, provenance records, and first-pass public dataset audits. It does not yet contain a completed cross-method benchmark or biological validation result. Full raw CROP-seq and AD regulome processing remain future workflow runs.

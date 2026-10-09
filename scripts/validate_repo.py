@@ -32,6 +32,13 @@ REQUIRED_FILES = [
     "docs/14_external_validation.md",
     "docs/15_concise_analysis_report.md",
     "docs/16_real_public_data_audit.md",
+    "docs/17_app_data_contract.md",
+    "docs/18_blog_series_outline.md",
+    "docs/19_expert_gap_assessment.md",
+    "schemas/regulatory_evidence_schema.yml",
+    "schemas/app_result_contract.yml",
+    "configs/ad_validation_resources.yml",
+    "manuscript/claim_traceability.yml",
     "manuscript/review_paper_draft.md",
     "manuscript/revision_log.md",
     "scripts/prepare_shiny_bundle.py",
@@ -94,6 +101,9 @@ def main():
         "docs/14_external_validation.md",
         "docs/15_concise_analysis_report.md",
         "docs/16_real_public_data_audit.md",
+        "docs/17_app_data_contract.md",
+        "docs/18_blog_series_outline.md",
+        "docs/19_expert_gap_assessment.md",
     ]:
         if doc not in readme:
             errors.append(f"README does not link {doc}")

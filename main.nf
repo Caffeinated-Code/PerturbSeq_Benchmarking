@@ -146,6 +146,7 @@ process REGULATORY_VALIDATION {
     --peaks ${peaks} \
     --peak-to-gene ${peak_to_gene} \
     --motifs ${motifs} \
+    --synthetic \
     --outdir regulatory
   """
 }

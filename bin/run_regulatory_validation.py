@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Score chromatin support for perturbation effects."""
+"""Create a legacy chromatin-support score for UI infrastructure tests.
+
+This score does not establish causal or biological validation. New integrations
+must emit typed records conforming to schemas/regulatory_evidence_schema.yml.
+"""
 
 import argparse
 import csv
@@ -38,6 +42,7 @@ def main():
     parser.add_argument("--peak-to-gene", required=True)
     parser.add_argument("--motifs", required=True)
     parser.add_argument("--outdir", required=True)
+    parser.add_argument("--synthetic", action="store_true", help="Mark every output as infrastructure testing only")
     args = parser.parse_args()
 
     outdir = Path(args.outdir)
@@ -107,13 +112,16 @@ def main():
             "regulatory_validation_score": score,
             "regulatory_validation_status": status_from_score(score),
             "evidence": ";".join(evidence) if evidence else "none",
+            "is_synthetic": str(args.synthetic).lower(),
+            "result_scope": "infrastructure_testing_only" if args.synthetic else "legacy_support_score",
         })
 
     fields = [
         "method", "perturbation", "gene", "effect_direction", "log2fc",
         "best_peak_id", "best_peak_accessibility", "best_peak_to_gene_score",
         "best_microglia_motif", "ad_annotation", "cell_state_annotation",
-        "regulatory_validation_score", "regulatory_validation_status", "evidence"
+        "regulatory_validation_score", "regulatory_validation_status", "evidence",
+        "is_synthetic", "result_scope"
     ]
     write_csv(outdir / "regulatory_validation.csv", rows, fields)
 
@@ -132,4 +140,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

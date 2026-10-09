@@ -1,0 +1,30 @@
+resources:
+  - id: sea_ad
+    title: Seattle Alzheimer Disease Brain Cell Atlas
+    evidence_types: [expression_state, accessible_chromatin]
+    context: postmortem human brain; cell-type and disease-state resolved
+    access_url: https://portal.brain-map.org/explore/seattle-alzheimers-disease
+    status: registered_not_ingested
+    limitations: observational; donor, region, stage, and neuropathology covariates are required
+  - id: rosmap_ad_regulome_2023
+    title: ROSMAP single-cell Alzheimer regulome
+    evidence_types: [accessible_chromatin, qtl, peak_to_gene, tf_motif_regulon, disease_association]
+    citation: Xiong et al., Cell 2023, doi:10.1016/j.cell.2023.08.040
+    access_url: https://doi.org/10.5281/zenodo.8287248
+    code_url: https://github.com/KellisLab/AD_regulome_analysis
+    status: registered_not_ingested
+    limitations: observational postmortem cortex; QTL and peak-to-gene evidence are probabilistic
+  - id: human_microglia_regulome_2022
+    title: Genetics of the human microglia regulome
+    evidence_types: [accessible_chromatin, qtl, peak_to_gene, disease_association]
+    citation: Kosoy et al., Nature Genetics 2022, doi:10.1038/s41588-022-01149-1
+    access_url: https://doi.org/10.7303/syn26207321
+    status: registered_not_ingested
+    limitations: primary microglia population evidence; limited disease-specific QTL power
+  - id: clinvar
+    title: NCBI ClinVar
+    evidence_types: [clinical_annotation]
+    access_url: https://www.ncbi.nlm.nih.gov/clinvar/docs/downloads/
+    status: registered_not_ingested
+    limitations: submitted clinical assertions may conflict; AD GWAS association is not clinical pathogenicity
+

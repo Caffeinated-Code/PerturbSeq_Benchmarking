@@ -38,6 +38,8 @@ def main():
     lines = [
         "# Perturb-seq Benchmark Demo Report",
         "",
+        "> **Synthetic infrastructure test.** These values are not biological findings and do not establish that benchmark methods ran on public datasets.",
+        "",
         "## Dataset QC",
         "",
         f"- cells: {qc.get('n_cells', 'NA')}",
@@ -54,7 +56,7 @@ def main():
         f"- runtime seconds: {summary.get('runtime_seconds', 'NA')}",
         f"- peak memory MB: {summary.get('peak_memory_mb', 'NA')}",
         "",
-        "## Method Selection",
+        "## Method Applicability",
         "",
     ]
     if method_decisions:
@@ -65,14 +67,14 @@ def main():
     else:
         lines.extend(["No method-decision table was supplied.", ""])
     lines.extend([
-        "## Regulatory Validation",
+        "## Legacy Regulatory Support Fixture",
         "",
         f"- tested effects: {regulatory.get('n_tested_effects', 'NA')}",
         f"- PASS: {regulatory.get('n_pass', 'NA')}",
         f"- WARN: {regulatory.get('n_warn', 'NA')}",
         f"- LOW_SUPPORT: {regulatory.get('n_low_support', 'NA')}",
         "",
-        "This demo validates the benchmark scaffold. Full runs should use public datasets listed in the dataset manifest.",
+        "These synthetic outputs test plumbing only. Observational chromatin overlap is not causal validation. Full runs must satisfy the result and evidence contracts before public display.",
     ])
     out.write_text("\n".join(lines) + "\n")
 

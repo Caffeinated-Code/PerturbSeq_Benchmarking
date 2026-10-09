@@ -42,3 +42,10 @@ Action taken:
 - Added a searchable Shiny result browser.
 - Kept synthetic-demo results separate from real-data claims.
 
+## Review 6: Alzheimer Microglia Evidence And Product Audit
+
+- Replaced causal-sounding validation language with evidence-conditioned regulatory corroboration.
+- Added typed evidence and result-product contracts, source provenance, explicit cell type/disease state, and conservative evidence tiers.
+- Registered SEA-AD, ROSMAP AD regulome, primary human microglia regulome, and ClinVar with ingestion status and limitations; registration does not imply data ingestion.
+- Added claim traceability and tests preventing synthetic fixtures or database overlap from receiving biological validation status.
+- Added the future three-part blog editorial brief; no blog was published.

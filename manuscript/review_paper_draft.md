@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Single-cell CRISPR screens connect genetic perturbations to molecular phenotypes at cell-level resolution. Perturb-seq and related assays have become central tools for mapping gene function, regulatory mechanisms, and cell-state control. Their analysis remains difficult because guide efficiency, partial perturbation responses, batch structure, cell-state heterogeneity, and readout modality can change the appropriate statistical model. Alzheimer disease provides a demanding use case: genetic risk is enriched in microglial regulatory programs, and perturbation effects may appear as state shifts rather than simple differential expression. This review outlines a benchmark framework for single-cell CRISPR analysis across microglia, Alzheimer risk-locus, genome-scale, multimodal, and chromatin-accessibility resources. The framework combines dataset profiling, method routing, paper-native baselines, perturbation QC, method comparison, and regulatory validation using Alzheimer brain chromatin resources. The goal is to support method choice that is statistically calibrated, biologically interpretable, and scalable.
+Single-cell CRISPR screens connect genetic perturbations to molecular phenotypes at cell-level resolution. Perturb-seq and related assays can map gene function, regulatory mechanisms, and cell-state control, but guide efficiency, partial responses, batch structure, cell-state heterogeneity, and readout modality change the appropriate statistical model. Alzheimer disease is a demanding use case because many risk signals map to microglial regulatory programs and perturbation effects may appear as state shifts. This review proposes a benchmark framework spanning microglia, Alzheimer risk-locus, genome-scale, multimodal, and chromatin-accessibility resources. The repository currently demonstrates contracts and workflow infrastructure with synthetic fixtures and limited public-data audits; it does not yet support comparative performance or biological conclusions.
 
 ## Introduction
 
@@ -60,11 +60,15 @@ A complete benchmark should report:
 - runtime and memory
 - method limitations
 
-## Regulatory Validation
+## Regulatory Corroboration
 
-RNA perturbation hits should be compared with independent chromatin and population-genetic evidence. Accessible microglia peaks, peak-to-gene links, transcription-factor motifs, Alzheimer risk loci, and disease-state regulatory modules provide context for interpreting perturbation effects.
+RNA perturbation hits can be compared with independent chromatin and population-genetic evidence. Accessible microglia peaks, peak-to-gene links, transcription-factor motifs, Alzheimer risk loci, and disease-state regulatory modules provide context. Perturbation, association, chromatin, QTL, and clinical annotation remain separate evidence types.
 
-This validation is not causal proof. It tests whether a perturbation hit is plausible in the disease-relevant regulatory landscape.
+These comparisons are observational corroboration, not causal proof. A database overlap is insufficient by itself. Higher evidence tiers require a completed perturbation result, independent resources, a regulatory link, aligned context and direction, and explicit uncertainty.
+
+## Evidence-conditioned interpretation
+
+Every reported result must identify dataset, method, contrast, sample count, cell count, and provenance. Claims about cell-type or disease-state specificity require the corresponding stratified analysis. Claims of replication require independent perturbation data with compatible contrasts. Synthetic results are infrastructure testing only and cannot support biological conclusions.
 
 ## Recommendations
 
@@ -76,5 +80,4 @@ Public datasets differ in guide assignment quality, donor structure, perturbatio
 
 ## Data And Code Availability
 
-The benchmark framework is organized as a public repository with dataset manifests, method manifests, Nextflow workflows, validation scripts, documentation, and an RShiny result browser scaffold.
-
+The repository contains dataset and method manifests, workflow scaffolding, evidence schemas, documentation, tests, and a Shiny result-browser prototype. Public raw-data ingestion and head-to-head method execution remain incomplete; the app must expose those statuses rather than imply completion.

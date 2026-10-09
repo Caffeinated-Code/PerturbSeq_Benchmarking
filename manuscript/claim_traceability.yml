@@ -1,0 +1,16 @@
+claims:
+  - id: C001
+    claim: Method applicability depends on experimental design and readout.
+    status: framework_claim
+    required_evidence: dataset profile plus explicit method eligibility rules
+    location: Method Routing
+  - id: C002
+    claim: Microglial regulatory resources can contextualize perturbation findings.
+    status: evidence_conditioned
+    required_evidence: typed observational records with cell type, disease state, source, and uncertainty
+    location: Regulatory Corroboration
+  - id: C003
+    claim: A specific perturbation effect is replicated in Alzheimer-relevant microglia.
+    status: not_yet_supported
+    required_evidence: independent completed perturbation datasets with aligned contrasts and direction
+    location: Future Results

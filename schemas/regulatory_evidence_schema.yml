@@ -1,0 +1,41 @@
+schema_version: 1.0.0
+description: Long-form evidence records supporting interpretation of a perturbation result.
+primary_key: [result_id, evidence_id]
+required:
+  - result_id
+  - evidence_id
+  - evidence_type
+  - source_id
+  - source_url
+  - source_version
+  - dataset_id
+  - method
+  - contrast
+  - n_samples
+  - n_cells
+  - cell_type
+  - disease_state
+  - direction
+  - direction_consistency
+  - evidence_status
+  - is_perturbational
+  - is_synthetic
+  - retrieved_at
+evidence_type_enum:
+  - perturbation
+  - expression_state
+  - accessible_chromatin
+  - disease_association
+  - qtl
+  - peak_to_gene
+  - tf_motif_regulon
+  - pathway_concordance
+  - clinical_annotation
+evidence_status_enum: [observed, not_observed, not_tested, unavailable]
+direction_consistency_enum: [consistent, inconsistent, not_applicable, unknown]
+rules:
+  - Association, QTL, chromatin, and clinical records must never be encoded as perturbation evidence.
+  - A database overlap is one evidence record, never a validation conclusion.
+  - Synthetic records are infrastructure tests and cannot contribute to biological evidence tiers.
+  - Cell type and disease state use explicit values; unknown is permitted and must not be silently imputed.
+

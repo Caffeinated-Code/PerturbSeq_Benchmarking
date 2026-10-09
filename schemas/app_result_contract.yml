@@ -1,0 +1,29 @@
+schema_version: 1.0.0
+required_result_identity:
+  - result_id
+  - dataset_id
+  - method
+  - method_run_status
+  - contrast
+  - n_samples
+  - n_cells
+  - provenance_id
+  - is_synthetic
+method_run_status_enum: [completed, failed, skipped_inapplicable, planned]
+display_rules:
+  - Only completed methods may display numerical results.
+  - Planned, failed, and skipped methods remain visible as status records, without result values.
+  - Every downloadable result must join to a provenance record.
+  - Synthetic data must be labeled infrastructure testing in every view and download.
+sections:
+  - dataset_selection
+  - qc
+  - design_moi
+  - method_applicability
+  - method_comparison
+  - biological_findings
+  - regulatory_support
+  - limitations
+  - provenance
+  - downloads
+
