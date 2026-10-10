@@ -39,11 +39,16 @@ REQUIRED_FILES = [
     "schemas/app_result_contract.yml",
     "configs/ad_validation_resources.yml",
     "manuscript/claim_traceability.yml",
+    "docs/17_real_data_engineering.md",
     "manuscript/review_paper_draft.md",
     "manuscript/revision_log.md",
     "scripts/prepare_shiny_bundle.py",
     "scripts/deploy_shinyapps.R",
     "scripts/procure_public_datasets.py",
+    "scripts/process_real_datasets.py",
+    "scripts/validate_real_products.py",
+    "workflows/real_data.nf",
+    "configs/real_datasets.yml",
     "scripts/run_analysis_modules.sh",
     "bin/analyze_gse207628_hyprseq.py",
     "bin/analyze_gse178317_abundance.py",
@@ -104,6 +109,7 @@ def main():
         "docs/17_app_data_contract.md",
         "docs/18_blog_series_outline.md",
         "docs/19_expert_gap_assessment.md",
+        "docs/17_real_data_engineering.md",
     ]:
         if doc not in readme:
             errors.append(f"README does not link {doc}")

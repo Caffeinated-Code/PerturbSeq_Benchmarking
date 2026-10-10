@@ -1,0 +1,5 @@
+dataset_id,lane,n_cells,n_genes,median_counts,median_genes,median_pct_mito,cells_pct_mito_gt20,subset_cells_written,guide_assignment_status
+gse178317_drager_cropseq,1,13649,33538,13277.0,3778.0,2.9996,1028,2000,unknown_not_deposited
+gse178317_drager_cropseq,2,14042,33538,12589.5,3694.0,3.1778,996,2000,unknown_not_deposited
+gse178317_drager_cropseq,3,15268,33538,10040.0,3246.0,3.4006,1050,2000,unknown_not_deposited
+gse178317_drager_cropseq,4,15343,33538,13157.0,3802.0,3.2559,1078,2000,unknown_not_deposited

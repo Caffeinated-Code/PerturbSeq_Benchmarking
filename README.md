@@ -158,6 +158,7 @@ This project does not rank methods by one number. A useful benchmark asks:
 - [Result Product Data Contract](docs/17_app_data_contract.md)
 - [Future Blog Series Editorial Brief](docs/18_blog_series_outline.md)
 - [Expert Gap Assessment](docs/19_expert_gap_assessment.md)
+- [Real-Data Engineering and Paper-Native Baselines](docs/17_real_data_engineering.md)
 - [Manuscript Draft](manuscript/review_paper_draft.md)
 - [Manuscript Revision Log](manuscript/revision_log.md)
 

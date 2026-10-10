@@ -1,0 +1,4 @@
+dataset_id,status,observations,features,product_observations,product_features
+gse178317_drager_cropseq,processed_expression_guide_assignment_unavailable,58302,33538,8000,33538
+gse207628_yang_hyprseq,processed_targeted_readout_guide_assignment_unavailable,10463,49,10463,49
+replogle_k562_essential,processed_author_pseudobulk,2285,8563,2285,8563

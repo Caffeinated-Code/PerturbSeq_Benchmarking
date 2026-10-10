@@ -1,0 +1,9 @@
+{
+  "dataset": "all",
+  "outdir": "artifacts/real_data",
+  "product_dir": "data/processed/real_data",
+  "drager_cells_per_lane": 2000,
+  "gse178317_dir": "data/raw/GSE178317/extracted",
+  "gse207628_dir": "data/raw/GSE207628/extracted",
+  "replogle_file": "data/raw/replogle_k562_essential/K562_essential_raw_bulk_01.h5ad"
+}

@@ -1,5 +1,5 @@
 schema_name: perturbseq_benchmark_anndata
-version: 0.1.0
+version: 1.0.0
 
 required:
   obs:
@@ -24,6 +24,7 @@ recommended:
     - cell_type
     - cell_state
     - guide_count
+    - observation_type
     - n_genes
     - total_counts
     - pct_mito
@@ -73,3 +74,12 @@ control_type_values:
   - positive_control
   - safe_targeting
   - unknown
+
+observation_type_values:
+  - cell
+  - guide_pair_pseudobulk
+
+missingness_policy:
+  perturbation: "Use unknown when a source archive lacks a validated cell-to-guide assignment."
+  guide_id: "Use unknown; experimental MOI is not evidence of a per-cell guide call."
+  donor: "Preserve donor or cell-line identity; never synthesize donor labels."

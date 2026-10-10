@@ -1,0 +1,3 @@
+dataset_id,replicate,n_cells,n_features,n_targeted_rna_features,n_barcode_probe_features,median_total_counts,median_targeted_expression_counts,zero_targeted_expression_cells,guide_assignment_status
+gse207628_yang_hyprseq,1,5889,49,20,29,725.0,610.0,0,unknown_mapping_not_deposited
+gse207628_yang_hyprseq,2,4574,49,20,29,791.0,662.0,0,unknown_mapping_not_deposited

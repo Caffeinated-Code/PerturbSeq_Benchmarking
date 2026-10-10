@@ -1,0 +1,42 @@
+schema_version: 1.0.0
+datasets:
+  gse178317_drager_cropseq:
+    accession: GSE178317
+    publication_doi: 10.1038/s41593-022-01131-4
+    raw_archive: data/raw/GSE178317/GSE178317_RAW.tar
+    source_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE178nnn/GSE178317/suppl/GSE178317_RAW.tar
+    source_sha256: 1fedaf717380a7d858544be56d1253f4c5bc6f7738f85833c5c1209d32e8fde2
+    assay: CROP-seq (10x 3' v3.1 RNA plus separate sgRNA-enrichment libraries)
+    perturbation: CRISPRi; pooled library of 81 sgRNAs targeting 38 genes
+    experimental_moi: "<0.15 (paper and GEO methods)"
+    biological_replicates: one pooled differentiation reported for CROP-seq
+    technical_batches: four 10x GEM lanes
+    guide_assignment: unavailable in deposited processed matrices; paper used demuxEM and z-score agreement
+    controls: non-targeting sgRNAs in the library; identities require the non-deposited assignment table
+  gse207628_yang_hyprseq:
+    accession: GSE207628
+    publication_doi: 10.1038/s41588-023-01506-8
+    raw_archive: data/raw/GSE207628/GSE207628_RAW.tar
+    source_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE207nnn/GSE207628/suppl/GSE207628_RAW.tar
+    source_sha256: 8144525b3d5e63ea6cc24ecde4c94a445343d996c1de797ab8dfb57c2f7ba90c
+    assay: targeted single-cell HyPR-seq
+    perturbation: CRISPRi of candidate cis-regulatory elements at five AD risk loci
+    experimental_moi: unknown in GEO record and processed files
+    biological_replicates: two independent microglia differentiations
+    technical_batches: GSM6304115 and GSM6304116
+    guide_assignment: unavailable in deposited cell-by-probe matrices
+    controls: source-study controls cannot be reconstructed without guide-to-barcode metadata
+  replogle_k562_essential:
+    accession: figshare_plus_20029387
+    publication_doi: 10.1016/j.cell.2022.05.013
+    raw_archive: data/raw/replogle_k562_essential/K562_essential_raw_bulk_01.h5ad
+    source_url: https://ndownloader.figshare.com/files/35773070
+    source_md5: 8321d5d3ffc99db2a5c71edca4189735
+    source_sha256: 80de95e54fcbca0e0537d569b43ec92fde6bd0482801505504baebe3118dcadf
+    assay: 10x direct-capture Perturb-seq, day 6, deposited raw pseudobulk
+    perturbation: dual-guide CRISPRi
+    experimental_moi: unknown in the processed pseudobulk object
+    biological_replicates: no donor structure; K562 cell line
+    technical_batches: GEM groups normalized by the source study; not present as rows in this object
+    guide_assignment: Cell Ranger 4.0 guide UMI assignment in source study
+    controls: non-targeting guide pairs; core_control flag supplied by authors
