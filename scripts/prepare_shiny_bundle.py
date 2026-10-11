@@ -30,6 +30,18 @@ FILES = [
     "real_public/gse178317_microglia_marker_context.csv",
 ]
 
+REAL_DATA_FILES = [
+    "real_dataset_status.csv",
+    "gse178317_lane_qc.csv",
+    "gse178317_guide_archive_audit.csv",
+    "gse178317_state_baseline.csv",
+    "gse207628_cell_qc.csv",
+    "gse207628_targeted_replicate_baseline.csv",
+    "replogle_k562_pseudobulk_qc.csv",
+    "replogle_k562_paper_native_baseline.csv",
+    "input_manifest.csv",
+]
+
 
 def main():
     if TARGET.exists():
@@ -39,6 +51,13 @@ def main():
         dst = TARGET / rel
         if not src.exists():
             raise FileNotFoundError(f"Missing benchmark output: {src}")
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+    for name in REAL_DATA_FILES:
+        src = ROOT / "artifacts" / "real_data" / name
+        dst = TARGET / "real_data" / name
+        if not src.exists():
+            raise FileNotFoundError(f"Missing real-data artifact: {src}")
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
     print(f"Prepared Shiny bundle results in {TARGET}")

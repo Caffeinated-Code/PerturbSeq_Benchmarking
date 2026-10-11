@@ -1,0 +1,2 @@
+dataset_id,n_guide_pair_pseudobulks,n_expression_features,n_targeting_pseudobulks,n_non_targeting_pseudobulks,source_cells_unfiltered,source_cells_filtered,median_cells_per_pseudobulk,median_mito_fraction
+replogle_k562_essential,2285,8563,2176,109,340386,310385,116.0,0.10781

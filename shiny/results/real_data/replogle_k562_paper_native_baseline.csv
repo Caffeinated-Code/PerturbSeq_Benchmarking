@@ -1,0 +1,4 @@
+dataset_id,metric,value,n
+replogle_k562_essential,median_target_pct_expression_change,-0.827473,2134
+replogle_k562_essential,fraction_energy_test_fdr_proxy_p_lt_0.05,0.779412,2176
+replogle_k562_essential,median_filtered_cells_per_targeting_pair,116.0,2176

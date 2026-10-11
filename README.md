@@ -164,4 +164,8 @@ This project does not rank methods by one number. A useful benchmark asks:
 
 ## Status
 
-This repository currently contains a runnable synthetic infrastructure demo, dataset-aware method eligibility rules, an evidence schema, a Shiny result-browser prototype, provenance records, and first-pass public dataset audits. It does not yet contain a completed cross-method benchmark or biological validation result. Full raw CROP-seq and AD regulome processing remain future workflow runs.
+The current release processes three public perturbation resources through reproducible, checksum-tracked workflows. GSE178317 contributes 58,302 deposited RNA profiles and an 8,000-cell lane-balanced analysis product. GSE207628 contributes 10,463 targeted HyPR-seq profiles across two biological replicates. The Replogle K562 object contains 2,285 guide-pair pseudobulks spanning 8,563 genes and summarizes 310,385 filtered source cells.
+
+The repository also contains executable adapters and lifecycle states for SCEPTRE, Mixscape, PS/scMAGeCK, GSFA, pertpy, and transparent pseudobulk. Only transparent pseudobulk has completed in the bundled synthetic benchmark. The other adapters report `FAILED`, `NOT_AVAILABLE`, or `INCOMPATIBLE` when dependencies or dataset requirements are unmet. This is an execution framework, not yet a completed real-data head-to-head benchmark.
+
+Two public-data limits determine the next scientific step. The GSE178317 GEO deposit lacks the authors' consensus cell-to-guide assignment table, and GSE207628 lacks a public cell-to-guide or cCRE mapping. Their current outputs are expression/QC and replicate baselines, not perturbation-effect estimates. SEA-AD, ROSMAP, microglia regulome, and ClinVar resources are provenance-registered under typed evidence contracts; real regulatory extracts have not yet been ingested.

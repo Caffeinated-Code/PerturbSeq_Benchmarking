@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Single-cell CRISPR screens connect genetic perturbations to molecular phenotypes at cell-level resolution. Perturb-seq and related assays can map gene function, regulatory mechanisms, and cell-state control, but guide efficiency, partial responses, batch structure, cell-state heterogeneity, and readout modality change the appropriate statistical model. Alzheimer disease is a demanding use case because many risk signals map to microglial regulatory programs and perturbation effects may appear as state shifts. This review proposes a benchmark framework spanning microglia, Alzheimer risk-locus, genome-scale, multimodal, and chromatin-accessibility resources. The repository currently demonstrates contracts and workflow infrastructure with synthetic fixtures and limited public-data audits; it does not yet support comparative performance or biological conclusions.
+Single-cell CRISPR screens connect genetic perturbations to molecular phenotypes at cell-level resolution. Perturb-seq and related assays can map gene function, regulatory mechanisms, and cell-state control, but guide efficiency, partial responses, batch structure, cell-state heterogeneity, and readout modality change the appropriate statistical model. Alzheimer disease is a demanding use case because many risk signals map to microglial regulatory programs and perturbation effects may appear as state shifts. This review proposes a benchmark framework spanning microglia, Alzheimer risk-locus, genome-scale, multimodal, and chromatin-accessibility resources. The repository now contains reproducible processing and audit summaries for three public perturbation resources, plus method and evidence contracts tested with synthetic fixtures. Missing guide-assignment metadata prevents perturbation-level reproduction for the two GEO microglia deposits, and the current release does not support comparative biological-performance claims.
 
 ## Introduction
 
@@ -80,4 +80,4 @@ Public datasets differ in guide assignment quality, donor structure, perturbatio
 
 ## Data And Code Availability
 
-The repository contains dataset and method manifests, workflow scaffolding, evidence schemas, documentation, tests, and a Shiny result-browser prototype. Public raw-data ingestion and head-to-head method execution remain incomplete; the app must expose those statuses rather than imply completion.
+The repository contains dataset and method manifests, checksum-tracked public-data processing, compact real-data audits, workflow infrastructure, evidence schemas, tests, and a Shiny result browser. A completed head-to-head benchmark still requires compatible guide-resolved inputs, installed upstream methods, frozen parameters, and matched endpoints. The app exposes processing and execution states rather than implying completion.

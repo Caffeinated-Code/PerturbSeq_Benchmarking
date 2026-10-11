@@ -38,7 +38,7 @@ ui <- page_navbar(
     .source-link a { color: #17384f; font-weight: 650; }
     .demo-banner { background: #fff3cd; border: 1px solid #e4c766; padding: 0.8rem; margin: 0.8rem 0; font-weight: 650; }
   ")),
-  tags$div(class = "demo-banner", "Bundled results are synthetic infrastructure tests. They are not biological findings and do not show that listed benchmark methods ran."),
+  tags$div(class = "demo-banner", "Method-comparison views use synthetic infrastructure tests. The Real Data tab contains measured public-data QC and paper-native audit summaries. Neither GEO deposit supports perturbation-level inference without the missing guide-assignment metadata."),
   nav_panel(
     "Overview",
     layout_columns(
@@ -50,6 +50,29 @@ ui <- page_navbar(
       card_header("Analysis summary"),
       p("This browser displays generated benchmark outputs. Run the Nextflow workflow before using it for real datasets."),
       p(help_button("MOI"), " and ", help_button("regulatory support"), " are explained through clickable terms.")
+    )
+  ),
+  nav_panel(
+    "Real Data",
+    card(
+      card_header("Processing status"),
+      p("These rows report what was measured from deposited public files and what remains unavailable."),
+      DTOutput("real_dataset_status")
+    ),
+    navset_card_tab(
+      nav_panel("Drager lane QC", DTOutput("real_drager_lane_qc")),
+      nav_panel("Drager guide audit", DTOutput("real_drager_guide_audit")),
+      nav_panel("Drager state baseline", DTOutput("real_drager_state")),
+      nav_panel("AD HyPR-seq QC", DTOutput("real_hypr_qc")),
+      nav_panel("AD replicate baseline", DTOutput("real_hypr_baseline")),
+      nav_panel("Replogle QC", DTOutput("real_replogle_qc")),
+      nav_panel("Replogle native baseline", DTOutput("real_replogle_baseline"))
+    ),
+    card(
+      card_header("Interpretation boundary"),
+      p("GSE178317 supports lane-aware expression QC and microglial state summaries. Its deposited matrices do not contain the authors' consensus cell-to-guide assignments."),
+      p("GSE207628 supports targeted-panel QC and replicate agreement. Its public matrices do not provide a cell-to-guide or cCRE mapping."),
+      p("The Replogle object is an author-deposited guide-pair pseudobulk object. It supports audit summaries, not cell-level escapee or donor analysis.")
     )
   ),
   nav_panel(
@@ -115,7 +138,7 @@ ui <- page_navbar(
     card(
       card_header("Interpretation"),
       p("GSE207628 is treated as a targeted single-cell CRISPRi HYPR-seq dataset. The public matrices support count-depth, feature-panel, and replicate-level audits now."),
-      p("GSE178317 is represented here by the public RNA abundance context table. The full raw CROP-seq archive is public and large, so it is routed to the Nextflow or AWS Batch path rather than bundled into this hosted app."),
+      p("The Public Dataset Audit preserves the earlier lightweight discovery tables. The Real Data tab contains the newer matrix-derived QC summaries. Full matrices remain outside the hosted app and are processed through the local or AWS Batch workflow."),
       tags$div(class = "source-link",
         tags$a(href = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE207628", target = "_blank", "GSE207628"),
         " | ",
@@ -145,6 +168,14 @@ server <- function(input, output, session) {
     gse178317_summary = result_path("real_public", "gse178317_abundance_summary.csv"),
     gse178317_sample_qc = result_path("real_public", "gse178317_sample_qc.csv"),
     gse178317_markers = result_path("real_public", "gse178317_microglia_marker_context.csv"),
+    real_dataset_status = result_path("real_data", "real_dataset_status.csv"),
+    real_drager_lane_qc = result_path("real_data", "gse178317_lane_qc.csv"),
+    real_drager_guide_audit = result_path("real_data", "gse178317_guide_archive_audit.csv"),
+    real_drager_state = result_path("real_data", "gse178317_state_baseline.csv"),
+    real_hypr_qc = result_path("real_data", "gse207628_cell_qc.csv"),
+    real_hypr_baseline = result_path("real_data", "gse207628_targeted_replicate_baseline.csv"),
+    real_replogle_qc = result_path("real_data", "replogle_k562_pseudobulk_qc.csv"),
+    real_replogle_baseline = result_path("real_data", "replogle_k562_paper_native_baseline.csv"),
     report = result_path("report", "demo_report.md")
   )
 
@@ -163,7 +194,15 @@ server <- function(input, output, session) {
       gse207628_probes = read_result(paths$gse207628_probes),
       gse178317_summary = read_result(paths$gse178317_summary),
       gse178317_sample_qc = read_result(paths$gse178317_sample_qc),
-      gse178317_markers = read_result(paths$gse178317_markers)
+      gse178317_markers = read_result(paths$gse178317_markers),
+      real_dataset_status = read_result(paths$real_dataset_status),
+      real_drager_lane_qc = read_result(paths$real_drager_lane_qc),
+      real_drager_guide_audit = read_result(paths$real_drager_guide_audit),
+      real_drager_state = read_result(paths$real_drager_state),
+      real_hypr_qc = read_result(paths$real_hypr_qc),
+      real_hypr_baseline = read_result(paths$real_hypr_baseline),
+      real_replogle_qc = read_result(paths$real_replogle_qc),
+      real_replogle_baseline = read_result(paths$real_replogle_baseline)
     )
   })
 
@@ -266,6 +305,14 @@ server <- function(input, output, session) {
   output$gse178317_summary <- renderDT(datatable(data()$gse178317_summary, filter = "top", options = datatable_opts))
   output$gse178317_sample_qc <- renderDT(datatable(data()$gse178317_sample_qc, filter = "top", options = datatable_opts))
   output$gse178317_markers <- renderDT(datatable(data()$gse178317_markers, filter = "top", options = datatable_opts))
+  output$real_dataset_status <- renderDT(datatable(data()$real_dataset_status, filter = "top", options = datatable_opts))
+  output$real_drager_lane_qc <- renderDT(datatable(data()$real_drager_lane_qc, filter = "top", options = datatable_opts))
+  output$real_drager_guide_audit <- renderDT(datatable(data()$real_drager_guide_audit, filter = "top", options = datatable_opts))
+  output$real_drager_state <- renderDT(datatable(data()$real_drager_state, filter = "top", options = datatable_opts))
+  output$real_hypr_qc <- renderDT(datatable(data()$real_hypr_qc, filter = "top", options = datatable_opts))
+  output$real_hypr_baseline <- renderDT(datatable(data()$real_hypr_baseline, filter = "top", options = datatable_opts))
+  output$real_replogle_qc <- renderDT(datatable(data()$real_replogle_qc, filter = "top", options = datatable_opts))
+  output$real_replogle_baseline <- renderDT(datatable(data()$real_replogle_baseline, filter = "top", options = datatable_opts))
 
   output$regulatory_plot <- renderPlot({
     x <- filtered_regulatory()

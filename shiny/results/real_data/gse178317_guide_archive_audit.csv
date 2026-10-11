@@ -1,0 +1,5 @@
+dataset_id,lane,matrix_cells,matrix_features,nonzero_features,explicit_guide_features,assignment_usable
+gse178317_drager_cropseq,1,59551,33538,8487,0,False
+gse178317_drager_cropseq,2,30849,33538,5874,0,False
+gse178317_drager_cropseq,3,58390,33538,8122,0,False
+gse178317_drager_cropseq,4,40399,33538,6829,0,False
