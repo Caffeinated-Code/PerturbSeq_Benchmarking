@@ -21,8 +21,8 @@ datasets:
     access: public
     source: https://www.nature.com/articles/s41593-022-01131-4
     priority: tier1
-    native_analysis: seurat_sctransform_cluster_shift_de
-    notes: Microglia disease-state anchor.
+    native_analysis: lane_stratified_expression_state_baseline
+    notes: Expression and microglial-state context only; deposited matrices lack consensus cell-to-guide assignments.
 
   - id: yang_ad_microglia_hyprseq
     name: Yang/Shen AD microglia CRISPRi-HyPr-seq
@@ -35,8 +35,8 @@ datasets:
     accession: GSE207628
     source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE207628
     priority: tier1
-    native_analysis: targeted_panel_enhancer_target_analysis
-    notes: Direct AD risk-locus dataset. Not whole-transcriptome Perturb-seq.
+    native_analysis: targeted_panel_replicate_baseline
+    notes: Targeted AD-locus context only; deposited matrices lack the cell-to-guide or cCRE mapping.
 
   - id: replogle_k562_gwps
     name: Replogle et al. K562 genome-scale Perturb-seq
@@ -48,69 +48,5 @@ datasets:
     access: public
     source: https://plus.figshare.com/articles/dataset/_Mapping_information-rich_genotype-phenotype_landscapes_with_genome-scale_Perturb-seq_Replogle_et_al_2022_processed_Perturb-seq_datasets/20029387
     priority: tier1
-    native_analysis: pseudobulk_effect_matrix
-    notes: Scale benchmark.
-
-  - id: frangieh_perturb_citeseq
-    name: Frangieh et al. Perturb-CITE-seq
-    organism: human
-    cell_type: melanoma and immune co-culture model
-    perturbation_type: CRISPR perturbation
-    readout: RNA plus surface protein
-    modality: RNA_protein
-    access: public
-    source: https://singlecell.broadinstitute.org/single_cell/study/SCP1064/multi-modal-pooled-perturb-cite-seq-screens-in-patient-models-define-novel-mechanisms-of-cancer-immune-evasion
-    priority: tier1
-    native_analysis: context_specific_multimodal_analysis
-    notes: Multimodal benchmark.
-
-  - id: papalexi_ifng_perturb_citeseq
-    name: Papalexi et al. IFN-gamma Perturb-CITE-seq
-    organism: human
-    cell_type: immune signaling model
-    perturbation_type: CRISPR perturbation
-    readout: RNA plus surface protein
-    modality: RNA_protein
-    access: public
-    priority: tier1
-    native_analysis: mixscape_local_perturbation_signature
-    notes: Perturbation classification and escapee benchmark.
-
-  - id: sea_ad_snatac
-    name: SEA-AD single-nucleus ATAC-seq and multiome resources
-    organism: human
-    cell_type: human brain cell types including microglia
-    perturbation_type: observational
-    readout: snATAC-seq or single-nucleus multiome
-    modality: chromatin_accessibility
-    access: public
-    source: https://knowledge.brain-map.org/data?filter.technique.name=CONTAINS~ATAC-seq
-    priority: regulatory_validation
-    native_analysis: peak_calling_motif_enrichment_peak_to_gene_linkage
-    notes: Alzheimer brain chromatin context for validating perturbation hits.
-
-  - id: ad_epigenome_regulome
-    name: Alzheimer disease regulome data repository
-    organism: human
-    cell_type: human brain cell types including microglia
-    perturbation_type: observational
-    readout: ATAC-seq, QTL, peak-to-gene, regulatory modules
-    modality: chromatin_accessibility
-    access: public
-    source: https://compbio.mit.edu/ad_epigenome/
-    priority: regulatory_validation
-    native_analysis: regulatory_module_and_variant_enrichment
-    notes: AD regulome resource for microglial enhancer and variant interpretation.
-
-  - id: scperturb_atac
-    name: scPerturb ATAC files
-    organism: mixed
-    cell_type: mixed
-    perturbation_type: single-cell perturbation
-    readout: scATAC-seq derived features
-    modality: chromatin_accessibility
-    access: public
-    source: https://plus.figshare.com/articles/dataset/scPerturb_Single-Cell_Perturbation_Data_ATAC_files/24160968
-    priority: regulatory_validation
-    native_analysis: dataset_specific_chromatin_perturbation_analysis
-    notes: Curated perturbation-response chromatin features for method extension.
+    native_analysis: author_pseudobulk_qc_and_effect_audit
+    notes: Perturbation-labeled guide-pair pseudobulk; cell-level methods require the larger source object.

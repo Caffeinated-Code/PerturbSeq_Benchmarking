@@ -1,56 +1,18 @@
-# External Validation Plan
+# Evidence Boundary
 
-## Purpose
+The current release does not claim external Alzheimer regulatory validation. No external chromatin, QTL, population-genetic, or clinical-variant matrix is bundled as analyzed evidence.
 
-External validation checks whether perturbation findings are supported by independent biological resources.
+The repository retains a typed evidence schema and synthetic fixtures to test software behavior. These fixtures demonstrate how future evidence could be represented without implying that a named external resource was analyzed.
 
-## Resources
+## Current Evidence Levels
 
-| Resource | Use |
-|---|---|
-| SEA-AD | Alzheimer brain cell states, microglia RNA, microglia chromatin |
-| AD Knowledge Portal | human Alzheimer multi-omic studies and metadata |
-| GWAS Catalog | Alzheimer risk loci and trait associations |
-| ClinVar | clinically interpreted variants near candidate genes |
-| Open Targets | gene-disease support and therapeutic context |
-| scPerturb | prior perturbation datasets and harmonized metadata |
-| PerturBase | perturbation database context and precedent |
+| Evidence | Current source | Valid interpretation |
+|---|---|---|
+| microglial expression state | GSE178317 RNA matrices | measured expression-program context without guide-resolved causality |
+| targeted AD-locus expression | GSE207628 HyPR-seq matrices | measured targeted-panel and replicate context without guide/cCRE effects |
+| perturbation/control labels | Replogle guide-pair pseudobulk | author-deposited perturbation/control audit at pseudobulk level |
+| regulatory-support demonstration | generated synthetic tables | infrastructure testing only |
 
-ClinVar and GWAS Catalog are variant-level resources. Open Targets is a gene-disease and therapeutic-evidence resource. These resources should support interpretation, not replace perturbation evidence.
+## Rule For Future Evidence
 
-## Validation Questions
-
-- Is the candidate gene expressed in disease-relevant microglia?
-- Is the candidate gene linked to accessible microglial chromatin?
-- Does the gene overlap Alzheimer genetic evidence?
-- Are linked regulatory elements active in Alzheimer-relevant cell states?
-- Has a similar perturbation been observed in another single-cell perturbation dataset?
-- Does clinical or population genetics support caution or relevance?
-
-## Output
-
-Planned table:
-
-| Column | Meaning |
-|---|---|
-| perturbation | perturbed gene or element |
-| gene | affected gene |
-| source | validation resource |
-| evidence_type | expression, chromatin, variant, disease association, perturbation precedent |
-| evidence_score | normalized score when available |
-| interpretation | concise evidence summary |
-| caveat | limitation of the evidence |
-
-## Scoring Plan
-
-External evidence should be reported by source rather than collapsed into a single universal score. A compact summary score can be added later for presentation, but the source-level evidence table should remain primary.
-
-Recommended evidence classes:
-
-- expression support
-- chromatin support
-- perturbation precedent
-- population-genetic support
-- clinical variant support
-- therapeutic target support
-
+An external resource will be named in results only after source-native records are ingested, genome build and cell context are recorded, provenance is frozen, and at least one reproducible output is used by the analysis. Until then, it is outside the active project scope.

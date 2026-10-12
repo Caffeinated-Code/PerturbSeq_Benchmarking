@@ -21,7 +21,7 @@ Which analysis strategies best recover credible perturbation effects, microglial
 - standardize data into an AnnData-based schema
 - run baseline single-cell QC and perturbation QC
 - benchmark recent analysis methods
-- contextualize RNA perturbation hits with separately typed chromatin, genetic, and clinical evidence
+- test typed evidence and provenance safeguards with explicitly synthetic fixtures
 - reproduce paper-native analyses where possible
 - compare methods using statistical, biological, and scalability metrics
 - summarize where each method is strong, fragile, or inappropriate
@@ -30,28 +30,25 @@ Which analysis strategies best recover credible perturbation effects, microglial
 
 The first benchmark tier uses:
 
-| Dataset | Biology | Readout | Why it matters |
+| Dataset | What is available | What is missing | Current use |
 |---|---|---|---|
-| Drager et al. iPSC-derived microglia CROP-seq | human microglia disease states | scRNA-seq plus guides | strongest microglia perturbation anchor |
-| Yang/Shen AD microglia CRISPRi-HyPr-seq, GSE207628 | Alzheimer risk loci in microglia | targeted single-cell RNA panel | direct AD genetics anchor |
-| Replogle et al. genome-scale Perturb-seq | K562 and RPE1 CRISPRi | scRNA-seq plus direct guide capture | scale and statistical benchmark |
-| Frangieh et al. Perturb-CITE-seq | melanoma immune evasion | RNA plus surface protein | multimodal and context-aware benchmark |
-| Papalexi et al. IFN-gamma Perturb-CITE-seq | immune signaling | RNA plus surface protein | perturbation escapee and Mixscape benchmark |
-| SEA-AD and AD regulome resources | Alzheimer brain and microglia chromatin | snATAC-seq or multiome | regulatory validation track |
+| Drager GSE178317 microglia CROP-seq | 58,302 RNA profiles across four lanes and matched sgRNA-enrichment archives | authors' consensus cell-to-guide assignments | expression QC, lane audit, and microglial state summaries |
+| Yang/Shen GSE207628 AD microglia CRISPRi-HyPr-seq | 10,463 targeted profiles across two biological replicates | cell-to-guide/cCRE mapping and experimental MOI | targeted-panel QC and replicate agreement |
+| Replogle K562 essential Perturb-seq | 2,285 labeled guide-pair pseudobulks covering 8,563 genes and 310,385 filtered source cells | cell-level object in the compact workflow | perturbation/control audit, paper-native summaries, and scale engineering |
+| Synthetic software fixture | 360 generated cells with known guides, controls, positive effects, and null effects | real biological signal | pipeline, routing, null, and positive-control tests |
 
-See [Dataset Catalog](docs/03_dataset_catalog.md).
+See the [Dataset Catalog](docs/03_dataset_catalog.md) for exact analytical boundaries.
 
-## Regulatory Support Track
+## Evidence Infrastructure
 
-Perturb-seq identifies genes and pathways affected by perturbation. The regulatory support track asks whether those hits are corroborated by Alzheimer or microglia resources. Observational support is not causal validation.
+The repository includes a typed evidence schema and synthetic tables that test how perturbation, expression, chromatin, genetic, and clinical evidence should remain separate. No external Alzheimer regulatory dataset is currently presented as analyzed evidence.
 
-It checks:
+The infrastructure checks:
 
-- whether hit genes map to accessible peaks in microglia
-- whether peaks overlap Alzheimer risk loci or candidate regulatory elements
-- whether linked peaks carry microglia-relevant TF motifs
-- whether perturbation hits align with disease-state regulatory programs
-- whether RNA-only findings remain plausible in a chromatin context
+- whether synthetic records remain labeled as infrastructure tests
+- whether database overlap is prevented from becoming a validation claim
+- whether evidence types and provenance remain distinct
+- whether directional conflicts limit evidence strength
 
 ## Methods
 
@@ -101,7 +98,7 @@ nextflow run main.nf \
 
 The demo run is intentionally small. Full public datasets can be large and should be run on a workstation, HPC, or AWS Batch.
 
-The demo pipeline writes baseline QC, perturbation effects, regulatory validation tables, and a compact Markdown report.
+The demo pipeline writes baseline QC, perturbation effects, synthetic evidence tables, and a compact Markdown report.
 
 Run analysis modules one step at a time:
 
@@ -150,9 +147,9 @@ This project does not rank methods by one number. A useful benchmark asks:
 - [Benchmark Outputs](docs/09_outputs.md)
 - [Roadmap](docs/10_roadmap.md)
 - [Paper-Native Baselines](docs/11_paper_native_baselines.md)
-- [Regulatory Validation Track](docs/12_regulatory_validation_track.md)
+- [Regulatory Evidence Infrastructure](docs/12_regulatory_validation_track.md)
 - [Dataset-Aware Method Routing](docs/13_method_routing.md)
-- [External Validation Plan](docs/14_external_validation.md)
+- [Evidence Boundary](docs/14_external_validation.md)
 - [Concise Analysis Report](docs/15_concise_analysis_report.md)
 - [Real Public Data Audit](docs/16_real_public_data_audit.md)
 - [Result Product Data Contract](docs/17_app_data_contract.md)
@@ -168,4 +165,4 @@ The current release processes three public perturbation resources through reprod
 
 The repository also contains executable adapters and lifecycle states for SCEPTRE, Mixscape, PS/scMAGeCK, GSFA, pertpy, and transparent pseudobulk. Only transparent pseudobulk has completed in the bundled synthetic benchmark. The other adapters report `FAILED`, `NOT_AVAILABLE`, or `INCOMPATIBLE` when dependencies or dataset requirements are unmet. This is an execution framework, not yet a completed real-data head-to-head benchmark.
 
-Two public-data limits determine the next scientific step. The GSE178317 GEO deposit lacks the authors' consensus cell-to-guide assignment table, and GSE207628 lacks a public cell-to-guide or cCRE mapping. Their current outputs are expression/QC and replicate baselines, not perturbation-effect estimates. SEA-AD, ROSMAP, microglia regulome, and ClinVar resources are provenance-registered under typed evidence contracts; real regulatory extracts have not yet been ingested.
+Two public-data limits determine the next scientific step. The GSE178317 GEO deposit lacks the authors' consensus cell-to-guide assignment table, and GSE207628 lacks a public cell-to-guide or cCRE mapping. Their current outputs are expression/QC and replicate baselines, not perturbation-effect estimates. The project no longer lists unprocessed external datasets as active resources.

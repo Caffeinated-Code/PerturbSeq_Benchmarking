@@ -46,6 +46,6 @@ Action taken:
 
 - Replaced causal-sounding validation language with evidence-conditioned regulatory corroboration.
 - Added typed evidence and result-product contracts, source provenance, explicit cell type/disease state, and conservative evidence tiers.
-- Registered SEA-AD, ROSMAP AD regulome, primary human microglia regulome, and ClinVar with ingestion status and limitations; registration does not imply data ingestion.
+- Removed catalog-only external resources so the active scope contains only processed data and synthetic infrastructure fixtures.
 - Added claim traceability and tests preventing synthetic fixtures or database overlap from receiving biological validation status.
 - Added the future three-part blog editorial brief; no blog was published.

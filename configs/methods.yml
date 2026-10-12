@@ -74,10 +74,3 @@ methods:
     source: https://www.nature.com/articles/s41592-025-02909-7
     version: 0.10.0
     compatibility: Python 3.10-3.12; AnnData-compatible RNA groups
-
-  - id: signac_archr_chromvar_track
-    name: Signac, ArchR, and chromVAR regulatory validation
-    year: active
-    category: chromatin_accessibility
-    enabled: false
-    output_level: peak_gene_motif

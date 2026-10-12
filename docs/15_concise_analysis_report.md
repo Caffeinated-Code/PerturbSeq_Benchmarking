@@ -42,7 +42,7 @@ The demo analysis currently includes:
 - pseudobulk perturbation-effect estimation
 - Alzheimer gene recovery
 - microglia-state gene recovery
-- regulatory validation against synthetic peak, peak-to-gene, motif, and annotation tables
+- evidence-model checks against synthetic peak, peak-to-gene, motif, and annotation tables
 
 ## Current Results
 
@@ -52,21 +52,19 @@ The demo analysis currently includes:
 | non-neutral effects | 14 |
 | Alzheimer gene effects | 4 |
 | microglia-state gene effects | 10 |
-| regulatory validation tests | 14 |
-| regulatory validation PASS | 7 |
-| regulatory validation WARN | 0 |
-| regulatory validation LOW_SUPPORT | 7 |
+| synthetic evidence tests | 14 |
+| synthetic PASS fixtures | 7 |
+| synthetic WARN fixtures | 0 |
+| synthetic LOW_SUPPORT fixtures | 7 |
 
 ## Interpretation
 
-The demo proves that the benchmark can connect perturbation effects to downstream biological interpretation and regulatory validation. It does not make biological claims about Alzheimer disease because the input data are synthetic.
+The demo proves that the workflow can connect perturbation-effect tables to a typed evidence interface. It does not provide regulatory validation or biological claims because every evidence record is synthetic.
 
 ## Next Real-Data Analyses
 
-1. Convert Drager microglia CROP-seq into the shared schema.
-2. Run paper-native microglia state-shift analysis.
-3. Run pseudobulk, Mixscape, PS, and SCEPTRE according to MOI profile.
-4. Convert Yang/Shen GSE207628 and analyze it as targeted AD microglia CRISPRi-HyPr-seq.
-5. Add Replogle K562 as a scale and calibration benchmark.
-6. Add SEA-AD chromatin validation for microglia regulatory context.
-
+1. Recover or reconstruct guide assignments for GSE178317.
+2. Obtain the guide/cCRE mapping for GSE207628.
+3. Add the Replogle cell-level object for methods that require individual cells.
+4. Freeze upstream method environments and execute only compatible routes.
+5. Add an external evidence source only after source-native data are ingested, harmonized, and connected to reproducible outputs.

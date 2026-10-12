@@ -14,13 +14,12 @@ class ContractTests(unittest.TestCase):
         self.assertTrue({"dataset_id", "method", "contrast", "n_samples", "n_cells", "provenance_id"} <= required)
         self.assertIn("skipped_inapplicable", contract["method_run_status_enum"])
 
-    def test_resource_registry_has_provenance_and_limitations(self):
-        resources = yaml.safe_load((ROOT / "configs/ad_validation_resources.yml").read_text())["resources"]
-        self.assertGreaterEqual(len(resources), 4)
-        for resource in resources:
-            self.assertTrue(resource["access_url"].startswith("https://"))
-            self.assertTrue(resource["limitations"])
-            self.assertIn(resource["status"], {"registered_not_ingested", "ingested", "unavailable"})
+    def test_active_dataset_catalog_contains_only_implemented_inputs(self):
+        datasets = yaml.safe_load((ROOT / "configs/datasets.yml").read_text())["datasets"]
+        self.assertEqual(
+            {dataset["id"] for dataset in datasets},
+            {"demo_synthetic", "drager_microglia_cropseq", "yang_ad_microglia_hyprseq", "replogle_k562_gwps"},
+        )
 
     def test_bundled_regulatory_data_is_explicitly_synthetic(self):
         path = ROOT / "shiny/results/regulatory_validation/regulatory_validation.csv"

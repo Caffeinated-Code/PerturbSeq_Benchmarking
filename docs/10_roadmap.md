@@ -32,9 +32,8 @@
 ## Phase 5: Biological Interpretation
 
 - Complete: typed evidence schema and conservative support tiers
-- Complete: resource registry for SEA-AD, ROSMAP, microglia regulome, and ClinVar
 - Complete: claim-traceability and app result contracts
-- Remaining: ingest source-native regulatory extracts, harmonize genome builds, and run donor-aware analyses
+- Remaining: add an external evidence source only after its data are ingested, harmonized, and connected to committed outputs
 - Remaining: compare real method findings with paper-native conclusions
 
 ## Phase 6: Scale-Out

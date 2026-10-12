@@ -17,7 +17,7 @@ term_help <- list(
   "MOI" = "Multiplicity of infection. In this benchmark it is approximated from guide count per cell and guide collision rate.",
   "guide collision rate" = "Fraction of cells with more than one guide. High collision rates can confound single-perturbation interpretation.",
   "pseudobulk" = "Aggregation of cells within perturbation or replicate groups before differential testing or effect estimation.",
-  "regulatory support" = "Independent observational or genetic context for a perturbation result. It is not causal validation.",
+  "evidence demo" = "Synthetic records used to test evidence typing, provenance, and interpretation safeguards. They are not biological findings.",
   "LOW_SUPPORT" = "The current regulatory resources do not provide strong support for the hit. This is not evidence that the perturbation result is false."
 )
 
@@ -44,12 +44,12 @@ ui <- page_navbar(
     layout_columns(
       card(card_header("Dataset"), uiOutput("dataset_metric")),
       card(card_header("Effects"), uiOutput("effect_metric")),
-      card(card_header("Regulatory support"), uiOutput("regulatory_metric"))
+      card(card_header("Synthetic evidence demo"), uiOutput("regulatory_metric"))
     ),
     card(
       card_header("Analysis summary"),
       p("This browser displays generated benchmark outputs. Run the Nextflow workflow before using it for real datasets."),
-      p(help_button("MOI"), " and ", help_button("regulatory support"), " are explained through clickable terms.")
+      p(help_button("MOI"), " and ", help_button("evidence demo"), " are explained through clickable terms.")
     )
   ),
   nav_panel(
@@ -105,20 +105,20 @@ ui <- page_navbar(
     card(card_header("Effect-size plot"), plotOutput("effect_plot", height = "420px"))
   ),
   nav_panel(
-    "Regulatory Support",
+    "Synthetic Evidence Demo",
     layout_columns(
       col_widths = c(3, 9),
       card(
         card_header("Filters"),
         uiOutput("regulatory_filters")
       ),
-      card(card_header("Observational support table"), DTOutput("regulatory_table"))
+      card(card_header("Generated support table"), DTOutput("regulatory_table"))
     ),
     card(card_header("Legacy demo support score"), p("This additive score is retained only as a synthetic UI fixture; evidence tiers are the scientific contract."), plotOutput("regulatory_plot", height = "420px"))
   ),
   nav_panel(
     "Limitations & Provenance",
-    card(card_header("Interpretation limits"), p("Observational atlases corroborate context but do not establish perturbation causality. Peak-to-gene and QTL links are probabilistic. Missing support may reflect coverage."), p("ClinVar assertions remain separate from Alzheimer association and functional evidence.")),
+    card(card_header("Interpretation limits"), p("The regulatory-support tables are generated fixtures used to test the evidence model. No external chromatin, QTL, population-genetic, or clinical source is represented as analyzed data.")),
     card(card_header("Provenance"), DTOutput("provenance_table")),
     downloadButton("download_regulatory", "Download displayed support table")
   ),

@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Single-cell CRISPR screens connect genetic perturbations to molecular phenotypes at cell-level resolution. Perturb-seq and related assays can map gene function, regulatory mechanisms, and cell-state control, but guide efficiency, partial responses, batch structure, cell-state heterogeneity, and readout modality change the appropriate statistical model. Alzheimer disease is a demanding use case because many risk signals map to microglial regulatory programs and perturbation effects may appear as state shifts. This review proposes a benchmark framework spanning microglia, Alzheimer risk-locus, genome-scale, multimodal, and chromatin-accessibility resources. The repository now contains reproducible processing and audit summaries for three public perturbation resources, plus method and evidence contracts tested with synthetic fixtures. Missing guide-assignment metadata prevents perturbation-level reproduction for the two GEO microglia deposits, and the current release does not support comparative biological-performance claims.
+Single-cell CRISPR screens connect genetic perturbations to molecular phenotypes at cell-level resolution. Perturb-seq and related assays can map gene function, regulatory mechanisms, and cell-state control, but guide efficiency, partial responses, batch structure, cell-state heterogeneity, and readout modality change the appropriate statistical model. Alzheimer disease is a demanding use case because many risk signals map to microglial regulatory programs and perturbation effects may appear as state shifts. This review proposes a benchmark framework spanning microglia, Alzheimer risk-locus, and genome-scale perturbation resources. The repository contains reproducible processing and audit summaries for three public perturbation resources, plus method and evidence contracts tested with synthetic fixtures. Missing guide-assignment metadata prevents perturbation-level reproduction for the two GEO microglia deposits, and the current release does not support comparative biological-performance claims.
 
 ## Introduction
 
@@ -34,8 +34,6 @@ The benchmark should include five dataset classes.
 | microglia Perturb-seq | Drager iPSC-derived microglia CROP-seq | disease-state perturbation biology |
 | AD risk-locus targeted scCRISPR | Yang/Shen GSE207628 | Alzheimer regulatory genetics |
 | genome-scale Perturb-seq | Replogle K562/RPE1 | scalability and statistical calibration |
-| multimodal Perturb-CITE-seq | Frangieh, Papalexi | RNA/protein and perturbation classification |
-| AD scATAC or multiome | SEA-AD, AD regulome | regulatory validation |
 
 ## Method Routing
 

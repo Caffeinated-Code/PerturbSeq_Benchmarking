@@ -13,8 +13,8 @@ The benchmark should produce compact tables for review and machine-readable file
 | `method_summary.csv` | discoveries, calibration metrics, runtime, memory |
 | `cell_state_summary.csv` | state abundance by perturbation |
 | `ad_microglia_recovery.csv` | recovery of Alzheimer and microglia marker programs |
-| `regulatory_validation.csv` | chromatin support for perturbation hits |
-| `regulatory_validation_summary.csv` | regulatory validation PASS, WARN, and LOW_SUPPORT counts |
+| `regulatory_validation.csv` | synthetic evidence-model fixture with explicit scope labels |
+| `regulatory_validation_summary.csv` | synthetic support-status counts for app testing |
 | `method_agreement.csv` | agreement across benchmarked methods |
 | `benchmark_summary.csv` | final method-level summary |
 
@@ -29,7 +29,7 @@ Recommended figures:
 - perturbation effect heatmap
 - cell-state proportion heatmap
 - AD/microglia gene-set recovery plot
-- regulatory validation score plot
+- synthetic evidence score plot, labeled as infrastructure testing
 - peak-to-gene support heatmap
 - method agreement UpSet plot
 - runtime and memory bar plot
@@ -42,7 +42,7 @@ Each dataset report should include:
 2. QC summary
 3. Native analysis reproduction
 4. Method comparison
-5. Regulatory validation
+5. Synthetic evidence-model checks or real external evidence when actually ingested
 6. Alzheimer or disease-relevant interpretation
 7. Limitations
 8. Recommended method choice

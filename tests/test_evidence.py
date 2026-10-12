@@ -21,7 +21,7 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(assign_evidence_tier([record("e1", "perturbation", "demo", True)])["tier"], "D")
 
     def test_database_overlap_alone_is_observational_only(self):
-        rows = [record("e1", "disease_association", "gwas"), record("e2", "clinical_annotation", "clinvar")]
+        rows = [record("e1", "disease_association", "population_demo"), record("e2", "clinical_annotation", "clinical_demo")]
         self.assertEqual(assign_evidence_tier(rows)["tier"], "D")
 
     def test_tier_b_requires_perturbation_regulatory_link_and_independent_sources(self):
@@ -41,4 +41,3 @@ class EvidenceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

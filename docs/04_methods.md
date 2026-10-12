@@ -90,13 +90,11 @@ Benchmark outputs:
 
 | Dataset | SCEPTRE | PS | GSFA | Mixscape | pertpy | Native analysis |
 |---|---|---|---|---|---|---|
-| Drager microglia CROP-seq | yes | yes | yes | yes | yes | yes |
-| Yang AD microglia HyPr-seq | limited | limited | limited | limited | yes | yes |
-| Replogle K562/RPE1 | yes | yes | yes | limited by scale | yes | yes |
-| Frangieh Perturb-CITE-seq | yes | yes | yes | yes | yes | yes |
-| Papalexi IFN-gamma Perturb-CITE-seq | yes | yes | yes | yes | yes | yes |
+| Drager microglia CROP-seq | blocked by missing guide calls | blocked | blocked | blocked | expression-only context | expression-state baseline |
+| Yang AD microglia HyPr-seq | blocked by missing guide/cCRE map | blocked | incompatible targeted panel | incompatible targeted panel | targeted-distance candidate after mapping | replicate baseline |
+| Replogle K562 pseudobulk | candidate with pseudobulk adaptation | cell-level method unavailable | candidate | cell-level method unavailable | pseudobulk-distance candidate | author-statistic baseline |
 
-Limited means the method can be run only after adapting the readout or reducing the analysis question.
+Candidate means the adapter and assay design may be compatible after a frozen upstream environment and matched input contract are available. It does not mean the method has run.
 
 ## Sources
 
@@ -106,4 +104,3 @@ Limited means the method can be run only after adapting the readout or reducing 
 - GSFA: https://www.nature.com/articles/s41592-023-02017-4
 - Mixscape workflow context: https://www.sc-best-practices.org/conditions/perturbation_modeling.html
 - pertpy: https://www.nature.com/articles/s41592-025-02909-7
-

@@ -37,7 +37,6 @@ REQUIRED_FILES = [
     "docs/19_expert_gap_assessment.md",
     "schemas/regulatory_evidence_schema.yml",
     "schemas/app_result_contract.yml",
-    "configs/ad_validation_resources.yml",
     "manuscript/claim_traceability.yml",
     "docs/17_real_data_engineering.md",
     "manuscript/review_paper_draft.md",

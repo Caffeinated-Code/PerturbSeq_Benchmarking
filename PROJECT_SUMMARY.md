@@ -12,7 +12,7 @@ The benchmark compares recent analysis strategies for:
 - cell-state shifts
 - pathway-level effects
 - Alzheimer and microglia gene-set recovery
-- chromatin accessibility validation
+- typed evidence and provenance safeguards tested with synthetic fixtures
 - dataset-aware method routing
 - searchable RShiny result review
 - runtime and memory performance
