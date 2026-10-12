@@ -117,8 +117,17 @@ ui <- page_navbar(
     card(card_header("Legacy demo support score"), p("This additive score is retained only as a synthetic UI fixture; evidence tiers are the scientific contract."), plotOutput("regulatory_plot", height = "420px"))
   ),
   nav_panel(
+    "GWAS Corroboration",
+    card(
+      card_header("Alzheimer disease locus corroboration"),
+      p("This table contains a reproducible NHGRI-EBI GWAS Catalog query. YES denotes at least one mapped-gene Alzheimer association at p <= 5e-8."),
+      p("Mapped-gene overlap supports disease relevance. It does not validate a perturbation effect, its direction, or its microglial cell context."),
+      DTOutput("gwas_corroboration")
+    )
+  ),
+  nav_panel(
     "Limitations & Provenance",
-    card(card_header("Interpretation limits"), p("The regulatory-support tables are generated fixtures used to test the evidence model. No external chromatin, QTL, population-genetic, or clinical source is represented as analyzed data.")),
+    card(card_header("Interpretation limits"), p("The regulatory-support tables are generated fixtures used to test the evidence model. GWAS Catalog is the only analyzed external evidence source. No external chromatin, QTL, clinical-variant, or independent perturbation matrix has been analyzed.")),
     card(card_header("Provenance"), DTOutput("provenance_table")),
     downloadButton("download_regulatory", "Download displayed support table")
   ),
@@ -161,6 +170,7 @@ server <- function(input, output, session) {
     effects = result_path("method", "simple_pseudobulk_effects.csv"),
     regulatory = result_path("regulatory_validation", "regulatory_validation.csv"),
     regulatory_summary = result_path("regulatory_validation", "regulatory_validation_summary.csv"),
+    gwas_corroboration = result_path("external_corroboration", "gwas_catalog_ad_corroboration.csv"),
     download_manifest = result_path("real_public", "download_manifest.csv"),
     public_provenance = result_path("real_public", "public_dataset_provenance.csv"),
     gse207628_summary = result_path("real_public", "gse207628_hyprseq_matrix_summary.csv"),
@@ -188,6 +198,7 @@ server <- function(input, output, session) {
       effects = read_result(paths$effects),
       regulatory = read_result(paths$regulatory),
       regulatory_summary = read_result(paths$regulatory_summary),
+      gwas_corroboration = read_result(paths$gwas_corroboration),
       download_manifest = read_result(paths$download_manifest),
       public_provenance = read_result(paths$public_provenance),
       gse207628_summary = read_result(paths$gse207628_summary),
@@ -297,6 +308,7 @@ server <- function(input, output, session) {
   })
 
   output$regulatory_table <- renderDT(datatable(filtered_regulatory(), filter = "top", options = datatable_opts))
+  output$gwas_corroboration <- renderDT(datatable(data()$gwas_corroboration, filter = "top", options = datatable_opts))
   output$download_manifest <- renderDT(datatable(data()$download_manifest, filter = "top", options = datatable_opts))
   output$public_provenance <- renderDT(datatable(data()$public_provenance, filter = "top", options = datatable_opts))
   output$provenance_table <- renderDT(datatable(data()$public_provenance, filter = "top", options = datatable_opts))

@@ -1,0 +1,12 @@
+{
+  "resource": "NHGRI-EBI GWAS Catalog",
+  "endpoint": "https://www.ebi.ac.uk/gwas/rest/api/v2/associations",
+  "trait": "Alzheimer disease",
+  "efo_id": "MONDO_0004975",
+  "data_release_date": "2026-10-03",
+  "gene_build": "GRCh38.p14",
+  "dbsnp_build": "156",
+  "query_rule": "Mapped-gene associations for MONDO_0004975 and child traits; extended gene set disabled.",
+  "genome_wide_threshold": 5e-08,
+  "interpretation": "Corroborates disease-locus relevance only. It does not validate perturbation effects, direction, or cell context."
+}

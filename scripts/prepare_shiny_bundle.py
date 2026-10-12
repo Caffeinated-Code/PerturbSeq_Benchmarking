@@ -20,6 +20,7 @@ FILES = [
     "regulatory_validation/regulatory_validation.csv",
     "regulatory_validation/regulatory_validation_summary.csv",
     "regulatory_validation/validated_ad_microglia_hits.csv",
+    "external_corroboration/gwas_catalog_ad_corroboration.csv",
     "report/demo_report.md",
     "real_public/download_manifest.csv",
     "real_public/public_dataset_provenance.csv",

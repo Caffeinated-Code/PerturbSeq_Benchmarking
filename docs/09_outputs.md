@@ -15,6 +15,8 @@ The benchmark should produce compact tables for review and machine-readable file
 | `ad_microglia_recovery.csv` | recovery of Alzheimer and microglia marker programs |
 | `regulatory_validation.csv` | synthetic evidence-model fixture with explicit scope labels |
 | `regulatory_validation_summary.csv` | synthetic support-status counts for app testing |
+| `external_corroboration/gwas_catalog_ad_corroboration.csv` | real GWAS Catalog Alzheimer disease-locus corroboration for benchmark candidate genes |
+| `external_corroboration/gwas_catalog_provenance.json` | API endpoint, release, annotation builds, query rule, and interpretation boundary |
 | `method_agreement.csv` | agreement across benchmarked methods |
 | `benchmark_summary.csv` | final method-level summary |
 

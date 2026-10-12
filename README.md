@@ -4,6 +4,18 @@ Benchmarking Perturb-seq analysis methods across Alzheimer-relevant microglia an
 
 Public Shiny result browser: https://caffeinated-code.shinyapps.io/PerturbSeq_Benchmarking/
 
+## Conclusion at a Glance
+
+This release analyzes **three public datasets** and one synthetic software fixture. The public inputs contain 58,302 microglial whole-transcriptome profiles with 33,538 measured genes, 10,463 targeted AD-microglia profiles with 49 measured features, and 2,285 K562 guide-pair pseudobulks with 8,563 genes derived from 310,385 filtered cells. These feature counts overlap and must not be added as a unique-gene total.
+
+Two analysis strategies have produced results: dataset-specific paper-native summaries and a transparent pseudobulk baseline. Six additional method adapters were evaluated for compatibility, but they did not complete a real-data head-to-head benchmark. Missing cell-to-guide assignments block perturbation-level inference in both GEO microglia deposits.
+
+The executable synthetic benchmark tested five perturbations against 20 genes. It recovered **14 non-neutral perturbation-gene effects involving 11 response genes**. These are positive-control software results, not new biological discoveries. The real Replogle product evaluates 2,134 targeting guide-pair pseudobulks and shows a median target-expression change of -82.7%; the current compact output does not support a new gene-level significance count.
+
+The [NHGRI-EBI GWAS Catalog](https://www.ebi.ac.uk/gwas/) independently corroborates Alzheimer disease locus relevance for **APOE, TREM2, INPP5D, and SPI1** among the benchmark candidates. This evidence supports disease prioritization. It does not validate the magnitude or direction of a perturbation response. The main research opportunity is to recover or reconstruct cell-to-guide assignments, rerun compatible methods on real microglia perturbations, and test whether genetically supported genes causally shift homeostatic, lipid-handling, inflammatory, or phagocytic states.
+
+See the [external corroboration report](docs/14_external_validation.md) for the query, provenance, evidence boundary, and gene-level table.
+
 ## Why This Project Exists
 
 Perturb-seq links a genetic perturbation to a single-cell molecular phenotype. It can reveal how a gene, enhancer, or regulatory program changes cell state. This matters for Alzheimer biology because many disease-associated variants act in microglia, and microglia can move between homeostatic, inflammatory, phagocytic, interferon-responsive, lipid-handling, and SPP1-like disease states.

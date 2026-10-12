@@ -8,6 +8,16 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ContractTests(unittest.TestCase):
+    def test_gwas_corroboration_is_scoped(self):
+        path = ROOT / "results/external_corroboration/gwas_catalog_ad_corroboration.csv"
+        with path.open(newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertGreater(len(rows), 0)
+        self.assertTrue(all(row["evidence_scope"] == "disease_relevance_only" for row in rows))
+        self.assertTrue(all(row["effect_direction_validated"] == "NO" for row in rows))
+        supported = {row["gene"] for row in rows if row["genome_wide_corroboration"] == "YES"}
+        self.assertEqual(supported, {"APOE", "INPP5D", "SPI1", "TREM2"})
+
     def test_app_contract_has_required_traceability(self):
         contract = yaml.safe_load((ROOT / "schemas/app_result_contract.yml").read_text())
         required = set(contract["required_result_identity"])

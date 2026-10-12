@@ -1,0 +1,13 @@
+gene,ad_mapped_association_count,genome_wide_corroboration,catalog_association_returned,representative_association_id,representative_variant,representative_p_value,representative_study,representative_pubmed_id,efo_id,evidence_scope,effect_direction_validated,genome_wide_threshold,api_release_date
+APOE,142,YES,YES,94035855,rs429358-?,0.0,GCST90093287,33637690,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+CSF1R,0,NO,NO,,,,,,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+CST7,0,NO,NO,,,,,,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+CX3CR1,0,NO,NO,,,,,,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+IFIT1,0,NO,NO,,,,,,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+INPP5D,22,YES,YES,219061830,rs10933431-G,2e-19,GCST90704646,42237039,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+LPL,0,NO,NO,,,,,,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+P2RY12,0,NO,NO,,,,,,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+SPI1,9,YES,YES,99811810,rs10437655-?,9e-37,GCST90132260,35589863,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+SPP1,1,NO,YES,191734474,rs2853750-A,4e-06,GCST90654661,40708016,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+TMEM119,0,NO,NO,,,,,,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03
+TREM2,27,YES,YES,219061930,rs75932628-T,3e-38,GCST90704646,42237039,MONDO_0004975,disease_relevance_only,NO,5e-08,2026-10-03

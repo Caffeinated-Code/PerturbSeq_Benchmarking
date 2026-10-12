@@ -30,6 +30,7 @@ REQUIRED_FILES = [
     "docs/12_regulatory_validation_track.md",
     "docs/13_method_routing.md",
     "docs/14_external_validation.md",
+    "scripts/fetch_gwas_corroboration.py",
     "docs/15_concise_analysis_report.md",
     "docs/16_real_public_data_audit.md",
     "docs/17_app_data_contract.md",

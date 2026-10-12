@@ -1,8 +1,20 @@
-# Evidence Boundary
+# External Corroboration and Evidence Boundary
 
-The current release does not claim external Alzheimer regulatory validation. No external chromatin, QTL, population-genetic, or clinical-variant matrix is bundled as analyzed evidence.
+## What Was Added
 
-The repository retains a typed evidence schema and synthetic fixtures to test software behavior. These fixtures demonstrate how future evidence could be represented without implying that a named external resource was analyzed.
+The current release queries the NHGRI-EBI GWAS Catalog API v2 for Alzheimer disease associations mapped to genes represented by a non-neutral synthetic benchmark effect or used as a synthetic perturbation. The committed snapshot is `results/external_corroboration/gwas_catalog_ad_corroboration.csv`. Query provenance is stored beside it.
+
+At a prespecified genome-wide threshold of `p <= 5e-8`, GWAS Catalog corroborates Alzheimer disease locus relevance for APOE, TREM2, INPP5D, and SPI1. SPP1 has a catalogued mapped-gene association below this project's corroboration threshold and is not counted as genome-wide support. GWAS evidence does not establish that these genes caused the synthetic response, reproduce an expression-effect direction, or identify the causal gene at every associated locus.
+
+The release still contains no analyzed external chromatin, QTL, clinical-variant, or independent perturbation matrix. The typed synthetic fixtures remain software tests only.
+
+## Reproduce the Query
+
+```bash
+python scripts/fetch_gwas_corroboration.py
+```
+
+The query uses `MONDO_0004975`, includes child traits, disables the extended gene set, and records the GWAS Catalog data release and genome annotation builds. Association counts are database records, not independent loci or replicated experiments.
 
 ## Current Evidence Levels
 
@@ -15,4 +27,4 @@ The repository retains a typed evidence schema and synthetic fixtures to test so
 
 ## Rule For Future Evidence
 
-An external resource will be named in results only after source-native records are ingested, genome build and cell context are recorded, provenance is frozen, and at least one reproducible output is used by the analysis. Until then, it is outside the active project scope.
+An external resource is named in results only after source-native records are queried or ingested, the relevant build and context are recorded, provenance is frozen, and a reproducible output is committed. Corroboration, mechanistic validation, and perturbation replication remain separate evidence classes.
