@@ -11,7 +11,7 @@ def read_csv(path):
 
 def write_csv(path, rows, fields):
     with open(path, "w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields); writer.writeheader(); writer.writerows(rows)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n"); writer.writeheader(); writer.writerows(rows)
 
 def num(value, default=0.0):
     try: return float(value)

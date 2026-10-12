@@ -1,23 +1,19 @@
 # Project Summary
 
-PerturbSeq_Benchmarking is a reproducible benchmark for single-cell CRISPR analysis methods.
+PerturbSeq_Benchmarking tests analysis choices for single-cell CRISPR data.
 
-The project focuses on Alzheimer-relevant microglia while using broader public Perturb-seq datasets to test scalability and method behavior across different designs.
+The project focuses on Alzheimer-relevant microglia. It also uses a large K562 Perturb-seq product to test scale and target-level summaries.
 
-The benchmark compares recent analysis strategies for:
+The repository provides:
 
-- perturbation-effect estimation
-- guide and target QC
-- perturbation escapee detection
-- cell-state shifts
-- pathway-level effects
-- Alzheimer and microglia gene-set recovery
-- typed evidence and provenance safeguards tested with synthetic fixtures
-- dataset-aware method routing
-- searchable RShiny result review
-- runtime and memory performance
+- short primers on Perturb-seq and Alzheimer microglia
+- provenance and checksums for public inputs
+- assay-aware method routing
+- expression, guide, replicate, and cell-state QC
+- paper-native and transparent pseudobulk summaries
+- explicit method states: `RUN`, `INCOMPATIBLE`, `FAILED`, or `NOT_AVAILABLE`
+- GWAS Catalog corroboration with a strict evidence boundary
+- a searchable Shiny result browser
+- local, Nextflow, and AWS Batch execution paths
 
-The repository is designed for two audiences:
-
-- beginners who need clear primers on Perturb-seq and Alzheimer microglia
-- computational biologists who want a reproducible benchmark with explicit assumptions
+The project serves two audiences. Beginners can follow the primers and blog series. Computational biologists can inspect method requirements, provenance, code, and limitations.

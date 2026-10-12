@@ -1,2 +1,2 @@
-n_cells,n_features,n_perturbations,min_cells_per_perturbation,mean_guides_per_cell,guide_collision_rate,moi_class,readout_class,modality
-360,20,6,60,1.0,0.0,low_moi,targeted,RNA
+n_cells,n_features,n_perturbations,n_guides,min_cells_per_perturbation,mean_guides_per_cell,guide_collision_rate,moi_class,readout_class,modality,n_replicates,n_non_targeting_controls,covariates
+360,20,6,6,60,1.0,0.0,low_moi,targeted,RNA,2,60,batch;condition;cell_type

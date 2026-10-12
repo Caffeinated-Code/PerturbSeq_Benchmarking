@@ -1,39 +1,36 @@
-# Perturb-seq Benchmark Demo Report
+# Perturb-seq Benchmark Report
 
-## Dataset QC
+## Scope
 
-- cells: 360
-- genes: 20
-- perturbations: 6
-- design status: PASS
+- Three public datasets were processed.
+- One generated dataset tests the workflow.
+- Two analysis strategies produced results.
+- Six more method adapters were checked for compatibility.
 
-## Benchmark Summary
+## Generated Test
 
-- method: simple_pseudobulk
-- tested effects: 100
-- non-neutral effects: 14
-- Alzheimer gene effects: 4
-- microglia-state gene effects: 10
+- Cells: 360
+- Perturbations: 5 plus one non-targeting control
+- Genes: 20
+- Perturbation-gene pairs: 100
+- Non-neutral pairs: 14 across 11 response genes
 
-## Method Selection
+These results test the software. They are not biological discoveries.
 
-| Method | Decision | Reason |
-|---|---|---|
-| native_paper | RUN | Run the dataset-specific baseline when source-study design is available. |
-| simple_pseudobulk | RUN | Requires RNA features and enough cells per perturbation. |
-| sceptre_low_moi | RUN | Run only for low-MOI designs with limited guide collisions. |
-| sceptre_high_moi_or_mixed_moi | SKIP | Use high-MOI or mixed-MOI association models when guide collisions are frequent. |
-| mixscape | SKIP | Perturbed-cell classification is best supported by whole-transcriptome signatures. |
-| gsfa | SKIP | Latent-factor models need enough transcriptome-wide signal. |
-| ps | RUN | Response scoring can be used for RNA or targeted RNA with careful interpretation. |
-| pertpy_distance | RUN | Use as the scverse-compatible organizing workflow for compatible objects. |
-| signac_archr_chromvar_track | SKIP | Run chromatin methods only for scATAC, multiome, or peak-linked validation resources. |
+## Public Data
 
-## Regulatory Validation
+- GSE178317 supports expression, lane, and cell-state QC.
+- GSE207628 supports targeted-panel QC and replicate comparison.
+- Replogle K562 supports target and control auditing at pseudobulk level.
 
-- tested effects: 14
-- PASS: 7
-- WARN: 0
-- LOW_SUPPORT: 7
+The two microglia datasets lack cell-to-guide assignments. Perturbation effects cannot be estimated from their deposited matrices.
 
-This demo validates the benchmark scaffold. Full runs should use public datasets listed in the dataset manifest.
+## Disease Corroboration
+
+GWAS Catalog supports Alzheimer disease relevance for APOE, TREM2, INPP5D, and SPI1 at `p <= 5e-8`.
+
+This evidence supports prioritization. It does not prove causality or validate an expression-effect direction.
+
+## Next Step
+
+Obtain guide-resolved microglia data. Then compare compatible methods with shared contrasts, biological replicates, and prespecified error control.

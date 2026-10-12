@@ -1,5 +1,15 @@
 # Manuscript Revision Log
 
+## Public-Language and Presentation Revision
+
+- Moved the project rationale before the README takeaways.
+- Replaced the prose conclusion with evidence-scoped bullets.
+- Simplified app, report, and project language.
+- Grouped app navigation and removed fill-height spacing.
+- Made effect plots responsive for laptop and mobile screens.
+- Replaced the raw report view with a structured summary.
+- Added a complete three-part blog series.
+
 ## Review 1: Biological Scope
 
 Action taken:

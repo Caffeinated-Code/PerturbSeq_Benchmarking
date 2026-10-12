@@ -14,11 +14,12 @@ result_path <- function(...) {
 }
 
 term_help <- list(
-  "MOI" = "Multiplicity of infection. In this benchmark it is approximated from guide count per cell and guide collision rate.",
-  "guide collision rate" = "Fraction of cells with more than one guide. High collision rates can confound single-perturbation interpretation.",
-  "pseudobulk" = "Aggregation of cells within perturbation or replicate groups before differential testing or effect estimation.",
-  "evidence demo" = "Synthetic records used to test evidence typing, provenance, and interpretation safeguards. They are not biological findings.",
-  "LOW_SUPPORT" = "The current regulatory resources do not provide strong support for the hit. This is not evidence that the perturbation result is false."
+  "MOI" = "Multiplicity of infection is the average number of viral particles delivered to each cell. Guide count and guide collisions provide a practical estimate.",
+  "guide collision rate" = "The fraction of cells assigned more than one guide. A high rate makes single-perturbation effects harder to interpret.",
+  "pseudobulk" = "A pseudobulk profile sums cells within a biological group, such as a replicate and perturbation. It supports replicate-aware comparisons.",
+  "evidence demo" = "Generated records that test the software and evidence rules. They are not biological findings.",
+  "GWAS corroboration" = "A GWAS association links a genomic locus to disease risk. Gene mapping supports disease relevance, but does not prove that the mapped gene is causal.",
+  "LOW_SUPPORT" = "The evidence demo did not meet its synthetic support rule. This label does not reject a biological result."
 )
 
 help_button <- function(label) {
@@ -27,31 +28,49 @@ help_button <- function(label) {
 
 ui <- page_navbar(
   title = "PerturbSeq Benchmarking",
+  fillable = FALSE,
   theme = bs_theme(version = 5, bootswatch = "flatly", primary = "#24506f", secondary = "#6c7a89", success = "#2f7d5c", warning = "#b7791f", danger = "#a94442"),
-  header = tags$style(HTML("
+  header = tagList(
+    tags$style(HTML("
     body { background: #f7faf9; color: #17201d; }
-    .card { border-radius: 8px; border: 1px solid #d8e3df; box-shadow: none; }
+    .container-fluid { max-width: 1440px; }
+    .card { border-radius: 8px; border: 1px solid #d8e3df; box-shadow: none; margin-bottom: 1rem; }
+    .card-body { padding: 1rem 1.1rem; }
     .navbar { border-bottom: 1px solid #d8e3df; }
+    .navbar-nav .nav-link { border-radius: 4px; margin: 0 0.08rem; }
+    .navbar-nav .nav-link.active, .navbar-nav .show > .nav-link { background: #c85f46; color: #ffffff !important; }
+    .dropdown-menu .dropdown-item.active { background: #c85f46; color: #ffffff; }
     .metric { font-size: 1.5rem; font-weight: 700; color: #17384f; }
     .small-note { color: #51615c; font-size: 0.92rem; }
-    .plot-card { min-height: 420px; }
+    .shiny-plot-output { width: 100% !important; }
+    .dataTables_wrapper { overflow-x: auto; }
     .source-link a { color: #17384f; font-weight: 650; }
-    .demo-banner { background: #fff3cd; border: 1px solid #e4c766; padding: 0.8rem; margin: 0.8rem 0; font-weight: 650; }
-  ")),
-  tags$div(class = "demo-banner", "Method-comparison views use synthetic infrastructure tests. The Real Data tab contains measured public-data QC and paper-native audit summaries. Neither GEO deposit supports perturbation-level inference without the missing guide-assignment metadata."),
+    .demo-banner { background: #fff7d6; border: 1px solid #dfc96f; padding: 0.75rem 1rem; margin: 0.8rem 0; font-weight: 600; }
+    .report-list li { margin-bottom: 0.45rem; }
+    @media (max-width: 768px) {
+      .container-fluid { padding-left: 0.65rem; padding-right: 0.65rem; }
+      .card-body { padding: 0.85rem; }
+      .demo-banner { font-size: 0.92rem; }
+      .metric { font-size: 1.3rem; }
+    }
+    ")),
+    tags$div(class = "demo-banner", "Method comparisons use generated test data. Public-data tabs show measured QC and paper-native summaries. The two microglia datasets lack cell-to-guide assignments, so they do not support perturbation-effect estimates.")
+  ),
   nav_panel(
     "Overview",
     layout_columns(
       card(card_header("Dataset"), uiOutput("dataset_metric")),
-      card(card_header("Effects"), uiOutput("effect_metric")),
-      card(card_header("Synthetic evidence demo"), uiOutput("regulatory_metric"))
+      card(card_header("Generated effects"), uiOutput("effect_metric")),
+      card(card_header("GWAS-supported candidates"), uiOutput("gwas_metric"))
     ),
     card(
-      card_header("Analysis summary"),
-      p("This browser displays generated benchmark outputs. Run the Nextflow workflow before using it for real datasets."),
-      p(help_button("MOI"), " and ", help_button("evidence demo"), " are explained through clickable terms.")
+      card_header("Read this first"),
+      p("The app separates measured public-data summaries from generated software tests. Run the workflow on guide-resolved data before drawing perturbation conclusions."),
+      p("Select ", help_button("MOI"), ", ", help_button("pseudobulk"), ", or ", help_button("GWAS corroboration"), " for a short explanation.")
     )
   ),
+  nav_menu(
+    "Data",
   nav_panel(
     "Real Data",
     card(
@@ -87,10 +106,13 @@ ui <- page_navbar(
       nav_panel("Cell states", DTOutput("cell_states"))
     )
   ),
+  ),
+  nav_menu(
+    "Analysis",
   nav_panel(
     "Method Selection",
-    card(card_header("Method applicability (eligibility, not execution)"), p("RUN in the bundled legacy table means eligible to run. It does not mean completed."), DTOutput("method_decisions")),
-    card(card_header("Eligibility summary"), plotOutput("method_plot", height = "360px"))
+    card(card_header("Method eligibility"), p("ELIGIBLE means that the test dataset meets the method's basic input rules. It does not mean that the method ran."), DTOutput("method_decisions")),
+    card(card_header("Eligibility summary"), plotOutput("method_plot", height = "300px"))
   ),
   nav_panel(
     "Perturbation Effects",
@@ -102,8 +124,11 @@ ui <- page_navbar(
       ),
       card(card_header("Effect table"), DTOutput("effects"))
     ),
-    card(card_header("Effect-size plot"), plotOutput("effect_plot", height = "420px"))
+    card(card_header("Largest generated effects"), p("Bars show the largest absolute log2 fold changes in the generated test data."), plotOutput("effect_plot", height = "480px"))
   ),
+  ),
+  nav_menu(
+    "Evidence",
   nav_panel(
     "Synthetic Evidence Demo",
     layout_columns(
@@ -114,20 +139,21 @@ ui <- page_navbar(
       ),
       card(card_header("Generated support table"), DTOutput("regulatory_table"))
     ),
-    card(card_header("Legacy demo support score"), p("This additive score is retained only as a synthetic UI fixture; evidence tiers are the scientific contract."), plotOutput("regulatory_plot", height = "420px"))
+    card(card_header("Generated support score"), p("This score tests display and evidence rules. It is not biological validation."), plotOutput("regulatory_plot", height = "420px"))
   ),
   nav_panel(
     "GWAS Corroboration",
     card(
       card_header("Alzheimer disease locus corroboration"),
-      p("This table contains a reproducible NHGRI-EBI GWAS Catalog query. YES denotes at least one mapped-gene Alzheimer association at p <= 5e-8."),
-      p("Mapped-gene overlap supports disease relevance. It does not validate a perturbation effect, its direction, or its microglial cell context."),
+      p("This table contains a reproducible NHGRI-EBI GWAS Catalog query. YES means that the gene maps to at least one Alzheimer association with p <= 5e-8."),
+      p("This supports disease relevance. It does not prove causality, perturbation direction, or microglial specificity."),
       DTOutput("gwas_corroboration")
     )
   ),
+  ),
   nav_panel(
     "Limitations & Provenance",
-    card(card_header("Interpretation limits"), p("The regulatory-support tables are generated fixtures used to test the evidence model. GWAS Catalog is the only analyzed external evidence source. No external chromatin, QTL, clinical-variant, or independent perturbation matrix has been analyzed.")),
+    card(card_header("Interpretation limits"), p("Generated regulatory tables test the evidence model. GWAS Catalog is the only external evidence source analyzed here. The project has not analyzed an external chromatin, QTL, clinical-variant, or independent perturbation matrix.")),
     card(card_header("Provenance"), DTOutput("provenance_table")),
     downloadButton("download_regulatory", "Download displayed support table")
   ),
@@ -157,7 +183,7 @@ ui <- page_navbar(
   ),
   nav_panel(
     "Report",
-    card(card_header("Generated report"), verbatimTextOutput("report_text"))
+    card(card_header("Project report"), uiOutput("report_summary"))
   )
 )
 
@@ -226,7 +252,7 @@ server <- function(input, output, session) {
   output$dataset_metric <- renderUI({
     x <- data()$dataset_qc
     if (!nrow(x)) return(p("No dataset QC file found."))
-    tagList(div(class = "metric", x$n_cells[1]), div(class = "small-note", paste(x$n_perturbations[1], "perturbations")))
+    tagList(div(class = "metric", x$n_cells[1]), div(class = "small-note", paste(x$n_perturbations[1] - 1, "perturbations plus control")))
   })
 
   output$effect_metric <- renderUI({
@@ -235,10 +261,11 @@ server <- function(input, output, session) {
     tagList(div(class = "metric", x$n_non_neutral_effects[1]), div(class = "small-note", "non-neutral effects"))
   })
 
-  output$regulatory_metric <- renderUI({
-    x <- data()$regulatory_summary
-    if (!nrow(x)) return(p("No regulatory validation summary found."))
-    tagList(div(class = "metric", x$n_pass[1]), div(class = "small-note", "synthetic examples above legacy support threshold"))
+  output$gwas_metric <- renderUI({
+    x <- data()$gwas_corroboration
+    if (!nrow(x)) return(p("No GWAS result found."))
+    n <- sum(x$genome_wide_corroboration == "YES")
+    tagList(div(class = "metric", n), div(class = "small-note", "genes with genome-wide AD support"))
   })
 
   datatable_opts <- list(pageLength = 12, scrollX = TRUE, searchHighlight = TRUE)
@@ -246,15 +273,20 @@ server <- function(input, output, session) {
   output$dataset_qc_design <- renderDT(datatable(data()$dataset_qc, filter = "top", options = datatable_opts))
   output$guide_qc <- renderDT(datatable(data()$guide_qc, filter = "top", options = datatable_opts))
   output$cell_states <- renderDT(datatable(data()$cell_states, filter = "top", options = datatable_opts))
-  output$method_decisions <- renderDT(datatable(data()$method_decisions, filter = "top", options = datatable_opts))
+  method_display <- reactive({
+    x <- data()$method_decisions
+    x$decision[x$decision == "RUN"] <- "ELIGIBLE"
+    x
+  })
+  output$method_decisions <- renderDT(datatable(method_display(), filter = "top", options = datatable_opts))
 
   output$method_plot <- renderPlot({
-    x <- data()$method_decisions
+    x <- method_display()
     req(nrow(x))
     ggplot(x, aes(x = decision, fill = decision)) +
       geom_bar(width = 0.65) +
-      scale_fill_manual(values = c(RUN = "#2f7d5c", SKIP = "#9aa6a1")) +
-      labs(x = NULL, y = "Methods", title = "Dataset-aware eligibility; execution status is separate") +
+      scale_fill_manual(values = c(ELIGIBLE = "#2f7d5c", INCOMPATIBLE = "#8c9893", FAILED = "#a94442", NOT_AVAILABLE = "#b7791f")) +
+      labs(x = NULL, y = "Method routes", title = "Eligibility for the generated 20-gene test dataset") +
       theme_minimal(base_size = 13) +
       theme(legend.position = "none")
   })
@@ -281,13 +313,17 @@ server <- function(input, output, session) {
   output$effect_plot <- renderPlot({
     x <- filtered_effects()
     req(nrow(x))
-    top <- x[order(abs(as.numeric(x$log2fc)), decreasing = TRUE), ][seq_len(min(25, nrow(x))), ]
+    width <- session$clientData$output_effect_plot_width
+    mobile <- !is.null(width) && width < 600
+    n_show <- if (mobile) 8 else 15
+    top <- x[order(abs(as.numeric(x$log2fc)), decreasing = TRUE), ][seq_len(min(n_show, nrow(x))), ]
     ggplot(top, aes(x = reorder(paste(perturbation, gene, sep = " -> "), as.numeric(log2fc)), y = as.numeric(log2fc), fill = effect_direction)) +
       geom_col() +
       coord_flip() +
       scale_fill_manual(values = c(up = "#b7791f", down = "#24506f", neutral = "#9aa6a1")) +
-      labs(x = NULL, y = "log2 fold change", title = "Top perturbation effects") +
-      theme_minimal(base_size = 13)
+      labs(x = NULL, y = "log2 fold change") +
+      theme_minimal(base_size = 14) +
+      theme(axis.text.y = element_text(size = 10.5), legend.position = if (mobile) "bottom" else "right")
   })
 
   output$regulatory_filters <- renderUI({
@@ -329,12 +365,16 @@ server <- function(input, output, session) {
   output$regulatory_plot <- renderPlot({
     x <- filtered_regulatory()
     req(nrow(x))
+    width <- session$clientData$output_regulatory_plot_width
+    mobile <- !is.null(width) && width < 600
+    if (mobile && nrow(x) > 8) x <- x[order(x$regulatory_validation_score, decreasing = TRUE), ][seq_len(8), ]
     ggplot(x, aes(x = reorder(paste(perturbation, gene, sep = " -> "), regulatory_validation_score), y = regulatory_validation_score, fill = regulatory_validation_status)) +
       geom_col() +
       coord_flip() +
       scale_fill_manual(values = c(PASS = "#2f7d5c", WARN = "#b7791f", LOW_SUPPORT = "#9aa6a1")) +
-      labs(x = NULL, y = "Legacy demo support score", title = "Synthetic infrastructure fixture") +
-      theme_minimal(base_size = 13)
+      labs(x = NULL, y = "Generated support score", title = "Evidence-rule software test") +
+      theme_minimal(base_size = 14) +
+      theme(axis.text.y = element_text(size = 10.5), legend.position = if (mobile) "bottom" else "right")
   })
 
   output$download_regulatory <- downloadHandler(
@@ -342,9 +382,31 @@ server <- function(input, output, session) {
     content = function(file) write.csv(filtered_regulatory(), file, row.names = FALSE)
   )
 
-  output$report_text <- renderText({
-    if (!file.exists(paths$report)) return("No report file found.")
-    paste(readLines(paths$report, warn = FALSE), collapse = "\n")
+  output$report_summary <- renderUI({
+    benchmark <- read_result(result_path("benchmark", "benchmark_summary.csv"))
+    gwas <- data()$gwas_corroboration
+    supported <- paste(gwas$gene[gwas$genome_wide_corroboration == "YES"], collapse = ", ")
+    tagList(
+      h4("Scope"),
+      tags$ul(class = "report-list",
+        tags$li("Three public datasets were processed. One generated dataset tests the workflow."),
+        tags$li("Paper-native summaries and a transparent pseudobulk baseline produced results."),
+        tags$li("The two microglia deposits lack cell-to-guide assignments. Their results are QC summaries, not perturbation effects.")
+      ),
+      h4("Generated benchmark"),
+      tags$ul(class = "report-list",
+        tags$li(paste(benchmark$n_effects[1], "perturbation-gene pairs were tested.")),
+        tags$li(paste(benchmark$n_non_neutral_effects[1], "pairs were non-neutral across 11 response genes.")),
+        tags$li("These values test expected software behavior. They are not biological discoveries.")
+      ),
+      h4("Disease corroboration"),
+      tags$ul(class = "report-list",
+        tags$li(paste("GWAS Catalog supports Alzheimer disease relevance for", supported, "at p <= 5e-8.")),
+        tags$li("GWAS overlap does not prove the causal gene or validate perturbation direction.")
+      ),
+      h4("Next analysis"),
+      p("Obtain guide-resolved microglia data. Then compare compatible methods with shared contrasts, replicate-aware models, and prespecified error control.")
+    )
   })
 }
 

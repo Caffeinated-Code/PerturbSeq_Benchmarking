@@ -1,27 +1,25 @@
-# Regulatory Evidence Infrastructure
+# Evidence-Type Tests
 
-The repository contains a typed evidence model and synthetic fixtures for testing how perturbation, expression, chromatin, genetic, and clinical evidence should remain separate. It does not currently contain analyzed external Alzheimer regulatory data.
+The project keeps perturbation, expression, chromatin, genetic, and clinical evidence in separate fields. Generated records test these rules. They are not biological findings.
 
-## Why The Infrastructure Remains
+## Rules Tested
 
-The synthetic track tests several safeguards:
+- Generated records cannot receive a biological evidence tier.
+- Database overlap alone is not validation.
+- Conflicting effect directions reduce evidence strength.
+- Each result records its dataset, method, contrast, sample or cell count, and provenance.
+- Association evidence stays separate from causal perturbation evidence.
 
-- synthetic records cannot receive a biological evidence tier
-- database overlap alone cannot be called validation
-- directional conflict limits evidence strength
-- perturbation, association, chromatin, QTL, motif, pathway, and clinical evidence remain distinct types
-- every result requires dataset, method, contrast, sample or cell count, and provenance
+## Generated Outputs
 
-## Current Outputs
-
-| Output | Scope |
+| Output | Purpose |
 |---|---|
-| `regulatory_validation.csv` | synthetic infrastructure fixture with explicit `is_synthetic=true` |
-| `regulatory_validation_summary.csv` | synthetic support-status counts used to test the app |
-| `validated_ad_microglia_hits.csv` | legacy filename retained for compatibility; contains synthetic examples, not validated hits |
+| `regulatory_validation.csv` | tests typed evidence fields; every row has `is_synthetic=true` |
+| `regulatory_validation_summary.csv` | tests support-status counts in the app |
+| `validated_ad_microglia_hits.csv` | legacy filename; contains generated examples, not validated hits |
 
-The canonical contracts are `schemas/regulatory_evidence_schema.yml` and `schemas/app_result_contract.yml`.
+The formal schemas are `schemas/regulatory_evidence_schema.yml` and `schemas/app_result_contract.yml`.
 
-## Interpretation Rule
+## Real External Evidence
 
-No synthetic support score is a biological finding. No external resource is named as analyzed evidence until its records are ingested and reproducibly linked to a committed output.
+GWAS Catalog is the only external evidence source analyzed in this release. Its output is stored under `results/external_corroboration/`. It supports Alzheimer disease locus relevance. It does not validate perturbation direction or causality.
